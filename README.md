@@ -4,12 +4,14 @@
 
 一点点完善，路过可以star一下～
 
-## 参考博客与书籍
+## 参考博客
 
 - [zhengjianglong博客](https://zhengjianglong.gitbooks.io/note-of-interview/content/)
 - [CyC2018博客](https://github.com/CyC2018/CS-Notes)
 - [Java后台开发工程师秋招攻略2018Fall](http://williamsun.cn/2018/06/02/Java%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%A7%8B%E6%8B%9B%E6%94%BB%E7%95%A52018Fall/)
 - [linw7博客](https://github.com/linw7/Skill-Tree)
+
+## 参考书籍
 
 ### 数据结构与算法
 
@@ -36,13 +38,6 @@
 - [UNIX 网络编程](https://book.douban.com/subject/1500149/)
 - [Linux 多线程服务端编程](https://book.douban.com/subject/20471211/)
 
-### 面向对象
-
-- [Head First 设计模式](https://book.douban.com/subject/2243615/)
-- [设计模式 可复用面向对象软件的基础](https://book.douban.com/subject/1052241/)
-- [敏捷软件开发 原则、模式与实践](https://book.douban.com/subject/1140457/)
-《敏捷软件开发》
-
 ### 数据库
 
 - [数据库系统概念](https://book.douban.com/subject/10548379/)
@@ -51,16 +46,6 @@
 - [Redis 设计与实现](https://book.douban.com/subject/25900156/)
 - [Redis 实战](https://book.douban.com/subject/26612779/)
 
-### Java
-
-- [Java 编程思想](https://book.douban.com/subject/2130190/)
-- [Effective java 中文版](https://book.douban.com/subject/3360807/)
-- [深入Java虚拟机(原书第2版)](https://book.douban.com/subject/1138768/)
-- [深入理解 Java 虚拟机](https://book.douban.com/subject/24722612/)
-- [Java 并发编程实战](https://book.douban.com/subject/10484692/)
-- [精通 Spring 4.x](https://book.douban.com/subject/26952826/)
-- [Spring 揭秘](https://book.douban.com/subject/3897837/)
-
 ### C++
 
 - [C++ Primer](https://book.douban.com/subject/25708312/)
@@ -68,11 +53,15 @@
 - [C++ 编程规范](https://book.douban.com/subject/1480481/)
 - [STL 源码剖析](https://book.douban.com/subject/1110934/)
 - [深度探索 C++ 对象模型](https://book.douban.com/subject/1091086/)
+- [Head First 设计模式](https://book.douban.com/subject/2243615/)
+- [设计模式 可复用面向对象软件的基础](https://book.douban.com/subject/1052241/)
+- [敏捷软件开发 原则、模式与实践](https://book.douban.com/subject/1140457/)
 
 ### 系统设计
- 《设计模式》 四人班 | 经典之作
-《大话设计模式》| 可以作为入门读物，看完面试也差不多了
-《大型网站技术架构：核心原理与案例分析》
+
+- [设计模式](https://book.douban.com/subject/1052241/)
+- [大话设计模式](https://book.douban.com/subject/2334288/)
+- [大型网站技术架构：核心原理与案例分析](https://book.douban.com/subject/25723064/)
 - [大规模分布式存储系统](https://book.douban.com/subject/25723658/)
 - [从 Paxos 到 Zookeeper](https://book.douban.com/subject/26292004/)
 - [大型网站系统与 Java 中间件开发实践](https://book.douban.com/subject/25867042/)
@@ -92,14 +81,12 @@
 - [程序员的职业素养](https://book.douban.com/subject/11614538/)
 - [编写可读代码的艺术](https://book.douban.com/subject/10797189/)
 
-### 其它
-
-- [JavaScript 语言精粹](https://book.douban.com/subject/3590768/)
-- [利用 Python 进行数据分析](https://book.douban.com/subject/25779298/)
-- [概率论与数理统计](https://book.douban.com/subject/2201479/)
-
 ## 学习计划
-校招真题https://www.nowcoder.com/discuss/68802?type=0&order=0&pos=10&page=1
+
+- [校招真题](https://www.nowcoder.com/discuss/68802?type=0&order=0&pos=10&page=1)
+- LeetCode
+- 剑指offer
+- 单项知识点
 
 ## 索引
 
@@ -108,7 +95,12 @@
 | Chapter 1 | Chapter 2 | Chapter 3| Chapter 4 | Chapter 5 | Chapter 6 | Chapter 7|
 | :--------: | :---------: | :---------: | :---------: | :---------: | :---------:| :---------: |
 |  [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md) | [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/%E7%9C%9F%E9%A2%98%E6%91%98%E5%BD%95.md)| [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)| [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/编程语言C++.md) | [数据结构与算法](https://github.com/linw7/Skill-Tree/blob/master/数据结构及算法.md) | [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md) | [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md) |
+数据库
 
+C++
 
+系统设计
+
+中文文案排版指北https://mazhuang.org/wiki/chinese-copywriting-guidelines/
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
