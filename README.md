@@ -90,17 +90,16 @@
 
 ## 索引
 
-上面我们提到了Cache来缩小知识范围，但是即使是被压缩过的知识依旧很多，我们怎么能够在脑海中快速检索它们呢？结合查找算法，Hash无疑是最快的，但又有多少人能够给一个"key"立马对应上"value"呢？所以，最适合人类认知的方式是通过索引 + 树状结构，在整理这份笔记时，我划分了很多级索引用来将各部分知识点划分到相应的模块中，检索任意一个知识点最多5级深度，不仅检索速度上去了还可以对整个知识体系有宏观认识。
+- [数据结构与算法](https://github.com/linw7/Skill-Tree/blob/master/数据结构及算法.md)
+- [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
+- [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)
+- [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md)
+- [数据库](https://github.com/linw7/Skill-Tree/blob/master/数据库.md)
+- [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/编程语言C++.md)
+- [系统设计](https://github.com/linw7/Skill-Tree/blob/master/系统设计.md)
+- [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md)
+- [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/%E7%9C%9F%E9%A2%98%E6%91%98%E5%BD%95.md)
 
-| Chapter 1 | Chapter 2 | Chapter 3| Chapter 4 | Chapter 5 | Chapter 6 | Chapter 7|
-| :--------: | :---------: | :---------: | :---------: | :---------: | :---------:| :---------: |
-|  [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md) | [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/%E7%9C%9F%E9%A2%98%E6%91%98%E5%BD%95.md)| [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)| [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/编程语言C++.md) | [数据结构与算法](https://github.com/linw7/Skill-Tree/blob/master/数据结构及算法.md) | [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md) | [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md) |
-数据库
-
-C++
-
-系统设计
-
-中文文案排版指北https://mazhuang.org/wiki/chinese-copywriting-guidelines/
+[中文文案排版指北](https://mazhuang.org/wiki/chinese-copywriting-guidelines/)
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
