@@ -4,6 +4,25 @@
 
 一点点完善，路过可以star一下～
 
+## 学习计划
+
+- [校招真题](https://www.nowcoder.com/discuss/68802?type=0&order=0&pos=10&page=1)
+- LeetCode
+- 剑指offer
+- 单项知识点
+
+## 索引
+
+- [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法.md)
+- [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
+- [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)
+- [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md)
+- [数据库](https://github.com/linw7/Skill-Tree/blob/master/数据库.md)
+- [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/编程语言C++.md)
+- [系统设计](https://github.com/linw7/Skill-Tree/blob/master/系统设计.md)
+- [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md)
+- [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/真题摘录.md)
+
 ## 参考博客
 
 - [zhengjianglong博客](https://zhengjianglong.gitbooks.io/note-of-interview/content/)
@@ -78,25 +97,6 @@
 - [人月神话](https://book.douban.com/subject/1102259/)
 - [程序员的职业素养](https://book.douban.com/subject/11614538/)
 - [编写可读代码的艺术](https://book.douban.com/subject/10797189/)
-
-## 学习计划
-
-- [校招真题](https://www.nowcoder.com/discuss/68802?type=0&order=0&pos=10&page=1)
-- LeetCode
-- 剑指offer
-- 单项知识点
-
-## 索引
-
-- [数据结构与算法](https://github.com/linw7/Skill-Tree/blob/master/数据结构及算法.md)
-- [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
-- [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)
-- [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md)
-- [数据库](https://github.com/linw7/Skill-Tree/blob/master/数据库.md)
-- [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/编程语言C++.md)
-- [系统设计](https://github.com/linw7/Skill-Tree/blob/master/系统设计.md)
-- [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md)
-- [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/%E7%9C%9F%E9%A2%98%E6%91%98%E5%BD%95.md)
 
 [中文文案排版指北](https://mazhuang.org/wiki/chinese-copywriting-guidelines/)
 
