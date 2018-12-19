@@ -16,6 +16,7 @@
 ### 数据结构与算法
 
 - [算法](https://book.douban.com/subject/19952400/)
+- [大话数据结构](https://book.douban.com/subject/6424904/)
 - [数据结构与算法分析](https://book.douban.com/subject/3351237/)
 - [编程珠玑](https://book.douban.com/subject/3227098/)
 - [剑指 Offer](https://book.douban.com/subject/25910559/)
@@ -27,7 +28,6 @@
 - [鸟哥的 Linux 私房菜](https://book.douban.com/subject/4889838/)
 - [Unix 环境高级编程](https://book.douban.com/subject/25900403/)
 - [Unix/Linux 编程实践教程](https://book.douban.com/subject/1219329/)
-- [Operating Systems: Three Easy Pieces (OSTEP)](http://pages.cs.wisc.edu/~remzi/OSTEP/)
 
 ### 计算机网络
 
@@ -43,8 +43,6 @@
 - [数据库系统概念](https://book.douban.com/subject/10548379/)
 - [MySQL 必知必会](https://book.douban.com/subject/3354490/)
 - [高性能 MySQL](https://book.douban.com/subject/23008813/)
-- [Redis 设计与实现](https://book.douban.com/subject/25900156/)
-- [Redis 实战](https://book.douban.com/subject/26612779/)
 
 ### C++
 
