@@ -1,18 +1,107 @@
-# GetJob
-面试笔记
-![图片](./source/github.jpg)
+# 准备面试笔记（C++、后台开发等）
 
-# 后台开发核心知识
+开始时间18年12月19日星期三。
 
-> 准备秋招，欢迎来树上取果实。
+一点点完善，路过可以star一下～
 
-看过很多书，但总是忘得很快。知识广度越大越容易接纳新东西，但从考察角度来说，自然是对某个方面了解越深越好。那些大而全的著作虽然每本都是经典中的经典，但实际工作中可能只用到其中的一小部分。之前实习经历使我对后台开发有了更深刻的认知和了解，现在距离秋招只有两个月了，这里将以最短的篇幅，最清晰的层级结构去总结那些对C++后台开发最为核心的内容。
+## 参考博客与书籍
 
-我现在越发觉得少即是多，看再多东西没有理解透彻都是白搭，把最常用的每天过一遍才是最有效的。开发中我们经常用缓存来提高吞吐率，学习知识何不也给自己加个Cache呢？
+- [zhengjianglong博客](https://zhengjianglong.gitbooks.io/note-of-interview/content/)
+- [CyC2018博客](https://github.com/CyC2018/CS-Notes)
+- [Java后台开发工程师秋招攻略2018Fall](http://williamsun.cn/2018/06/02/Java%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%A7%8B%E6%8B%9B%E6%94%BB%E7%95%A52018Fall/)
+- [linw7博客](https://github.com/linw7/Skill-Tree)
 
-最后，希望大家秋招都能找到满意的工作。
+### 数据结构与算法
 
-# 快速索引
+- [算法](https://book.douban.com/subject/19952400/)
+- [数据结构与算法分析](https://book.douban.com/subject/3351237/)
+- [编程珠玑](https://book.douban.com/subject/3227098/)
+- [剑指 Offer](https://book.douban.com/subject/25910559/)
+
+### 操作系统
+
+- [现代操作系统](https://book.douban.com/subject/3852290/)
+- [深入理解计算机系统](https://book.douban.com/subject/26912767/)
+- [鸟哥的 Linux 私房菜](https://book.douban.com/subject/4889838/)
+- [Unix 环境高级编程](https://book.douban.com/subject/25900403/)
+- [Unix/Linux 编程实践教程](https://book.douban.com/subject/1219329/)
+- [Operating Systems: Three Easy Pieces (OSTEP)](http://pages.cs.wisc.edu/~remzi/OSTEP/)
+
+### 计算机网络
+
+- [计算机网络](https://book.douban.com/subject/2970300/)
+- [计算机网络 自顶向下方法](https://book.douban.com/subject/1391207/)
+- [图解 HTTP](https://book.douban.com/subject/25863515/)
+- [TCP/IP 详解 卷 1：协议](https://book.douban.com/subject/1088054/)
+- [UNIX 网络编程](https://book.douban.com/subject/1500149/)
+- [Linux 多线程服务端编程](https://book.douban.com/subject/20471211/)
+
+### 面向对象
+
+- [Head First 设计模式](https://book.douban.com/subject/2243615/)
+- [设计模式 可复用面向对象软件的基础](https://book.douban.com/subject/1052241/)
+- [敏捷软件开发 原则、模式与实践](https://book.douban.com/subject/1140457/)
+《敏捷软件开发》
+
+### 数据库
+
+- [数据库系统概念](https://book.douban.com/subject/10548379/)
+- [MySQL 必知必会](https://book.douban.com/subject/3354490/)
+- [高性能 MySQL](https://book.douban.com/subject/23008813/)
+- [Redis 设计与实现](https://book.douban.com/subject/25900156/)
+- [Redis 实战](https://book.douban.com/subject/26612779/)
+
+### Java
+
+- [Java 编程思想](https://book.douban.com/subject/2130190/)
+- [Effective java 中文版](https://book.douban.com/subject/3360807/)
+- [深入Java虚拟机(原书第2版)](https://book.douban.com/subject/1138768/)
+- [深入理解 Java 虚拟机](https://book.douban.com/subject/24722612/)
+- [Java 并发编程实战](https://book.douban.com/subject/10484692/)
+- [精通 Spring 4.x](https://book.douban.com/subject/26952826/)
+- [Spring 揭秘](https://book.douban.com/subject/3897837/)
+
+### C++
+
+- [C++ Primer](https://book.douban.com/subject/25708312/)
+- [Effective C++](https://book.douban.com/subject/1842426/)
+- [C++ 编程规范](https://book.douban.com/subject/1480481/)
+- [STL 源码剖析](https://book.douban.com/subject/1110934/)
+- [深度探索 C++ 对象模型](https://book.douban.com/subject/1091086/)
+
+### 系统设计
+ 《设计模式》 四人班 | 经典之作
+《大话设计模式》| 可以作为入门读物，看完面试也差不多了
+《大型网站技术架构：核心原理与案例分析》
+- [大规模分布式存储系统](https://book.douban.com/subject/25723658/)
+- [从 Paxos 到 Zookeeper](https://book.douban.com/subject/26292004/)
+- [大型网站系统与 Java 中间件开发实践](https://book.douban.com/subject/25867042/)
+- [淘宝技术这十年](https://book.douban.com/subject/24335672/)
+- [深入理解 Nginx](https://book.douban.com/subject/22793675/)
+
+### 开发工具
+
+- [Pro Git](https://git-scm.com/book/zh/v2)
+- [正则表达式必知必会](https://book.douban.com/subject/2269648/)
+
+### 编码实践
+
+- [重构](https://book.douban.com/subject/4262627/)
+- [代码大全](https://book.douban.com/subject/1477390/)
+- [人月神话](https://book.douban.com/subject/1102259/)
+- [程序员的职业素养](https://book.douban.com/subject/11614538/)
+- [编写可读代码的艺术](https://book.douban.com/subject/10797189/)
+
+### 其它
+
+- [JavaScript 语言精粹](https://book.douban.com/subject/3590768/)
+- [利用 Python 进行数据分析](https://book.douban.com/subject/25779298/)
+- [概率论与数理统计](https://book.douban.com/subject/2201479/)
+
+## 学习计划
+校招真题https://www.nowcoder.com/discuss/68802?type=0&order=0&pos=10&page=1
+
+## 索引
 
 上面我们提到了Cache来缩小知识范围，但是即使是被压缩过的知识依旧很多，我们怎么能够在脑海中快速检索它们呢？结合查找算法，Hash无疑是最快的，但又有多少人能够给一个"key"立马对应上"value"呢？所以，最适合人类认知的方式是通过索引 + 树状结构，在整理这份笔记时，我划分了很多级索引用来将各部分知识点划分到相应的模块中，检索任意一个知识点最多5级深度，不仅检索速度上去了还可以对整个知识体系有宏观认识。
 
@@ -20,20 +109,6 @@
 | :--------: | :---------: | :---------: | :---------: | :---------: | :---------:| :---------: |
 |  [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md) | [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/%E7%9C%9F%E9%A2%98%E6%91%98%E5%BD%95.md)| [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)| [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/编程语言C++.md) | [数据结构与算法](https://github.com/linw7/Skill-Tree/blob/master/数据结构及算法.md) | [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md) | [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md) |
 
-# 独立专题
 
-哲学中，整体与个体的关系是物质世界普遍存在的规律。上面各部分知识相对独立，既要有零又要有整才能收获更多，实战无疑是最好的。
-
-- [纸上代码](https://github.com/linw7/Paper-Code)
-
-- [练手项目](https://github.com/linw7/TKeed)
-
-# 其他
-
-> 路过的豪杰麻烦右上角点一个star !
-
-- [学习计划](https://github.com/linw7/Skill-Tree/blob/master/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92.md)
-
-- [gitlab或github下fork后如何同步源的新更新内容？](https://www.zhihu.com/question/28676261)
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
