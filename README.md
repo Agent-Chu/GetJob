@@ -19,7 +19,7 @@
 - [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md)
 - [数据库](https://github.com/linw7/Skill-Tree/blob/master/数据库.md)
 - [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/编程语言C++.md)
-- [系统设计](https://github.com/linw7/Skill-Tree/blob/master/系统设计.md)
+- [系统设计](https://github.com/ChuangLiu727/GetJob/blob/master/系统设计.md)
 - [工具](https://github.com/CyC2018/CS-Notes#hammer-%E5%B7%A5%E5%85%B7)
 - [编码实践](https://github.com/CyC2018/CS-Notes#speak_no_evil-%E7%BC%96%E7%A0%81%E5%AE%9E%E8%B7%B5)
 - [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md)
@@ -31,8 +31,8 @@
 
 - [zhengjianglong博客](https://zhengjianglong.gitbooks.io/note-of-interview/content/)
 - [CyC2018博客](https://github.com/CyC2018/CS-Notes)
-- [Java后台开发工程师秋招攻略2018Fall](http://williamsun.cn/2018/06/02/Java%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%A7%8B%E6%8B%9B%E6%94%BB%E7%95%A52018Fall/)
 - [linw7博客](https://github.com/linw7/Skill-Tree)
+- [Java后台开发工程师秋招攻略2018Fall](http://williamsun.cn/2018/06/02/Java%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%A7%8B%E6%8B%9B%E6%94%BB%E7%95%A52018Fall/)
 
 ## 参考书籍
 
