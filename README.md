@@ -12,7 +12,7 @@
 - 项目
 - [校招真题](https://www.nowcoder.com/discuss/68802?type=0&order=0&pos=10&page=1)
 - LeetCode
-- 搜索岗位:猎聘APP+校园招+牛客网
+- 搜索岗位:猎聘APP + 校园招 + 牛客网
 
 ## 索引
 
