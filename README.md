@@ -16,6 +16,7 @@
 
 ## 索引
 
+- [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer.md)
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法.md)
 - [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
 - [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)
@@ -27,8 +28,8 @@
 - [编码实践](https://github.com/CyC2018/CS-Notes#speak_no_evil-%E7%BC%96%E7%A0%81%E5%AE%9E%E8%B7%B5)
 - [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md)
 - [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/真题摘录.md)
-- [剑指 Offer 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E5%89%91%E6%8C%87%20offer%20%E9%A2%98%E8%A7%A3.md)
 - [LeetCode 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/Leetcode%20%E9%A2%98%E8%A7%A3.md)
+- [面试技巧](https://github.com/ChuangLiu727/GetJob/blob/master/面试技巧.md)
 
 ## 参考博客
 

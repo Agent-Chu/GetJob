@@ -1,0 +1,53 @@
+# 剑指 Offer
+
+- [剑指 Offer 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E5%89%91%E6%8C%87%20offer%20%E9%A2%98%E8%A7%A3.md)
+- [1.赋值运算符函数](#1.赋值运算符函数)
+- [2.实现Singleton模式](#2.实现Singleton模式)
+- [3.数组中的重复数字](#3.数组中的重复数字)
+- [4.实现Singleton模式](#2.实现Singleton模式)
+- [5.实现Singleton模式](#2.实现Singleton模式)
+
+## 1.赋值运算符函数
+
+## 2.实现Singleton模式
+
+## 3.数组中的重复数字
+
+数组特点：
+
+- 连续内存
+- STL 的 vector 每次扩充容量时，新的容量是之前一次的两倍
+- 数组作为函数的参数传递时，数组退化成同类型的指针
+
+```c++
+int Getsize(int data[]){
+    return sizeof(data);
+}
+
+int main(){
+    int data1[] = {1,2,3,4,5};
+    printf("%d\n",sizeof(data1));
+    //输出20，5个int
+
+    int* data2 = data1;
+    printf("%d\n",sizeof(data2));
+    //输出4，因为是对一个指针求sizeof
+
+    printf("%d\n",Getsize(data1));
+    //输出4，虽然传递的是数组，但是数组作为参数传递时，退化成了int指针
+}
+```
+
+题目一：找出数组中重复数字
+在长度为n的数组中有n个数字，数字大小在0-n-1的范围中，输出重复数字。
+思路1:先排序后扫描
+思路2:扫描，构建hash表
+思路3:由于数的范围是0-n-1，所以从头到尾扫描，当前数i和位置m不等，则i换到m位置，相等则继续，与hash方法相比，不用新开辟一个数组。
+
+注意代码健壮性，检查传入数组是否为空，检查length是否小于等于0，检查每个数是够在0-n-1之间
+
+- [3.数组中的重复数字题目一代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/3.数组中的重复数字题目一.cpp)
+
+题目二：不修改数组找出重复数字
+
+- [3.数组中的重复数字题目二代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/3.数组中的重复数字题目二.cpp)
