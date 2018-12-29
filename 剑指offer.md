@@ -6,6 +6,7 @@
 - [3.数组中的重复数字](#3.数组中的重复数字)
 - [4.二维数组中的查找](#4.二维数组中的查找)
 - [5.替换空格](#5.替换空格)
+- [6.从尾到头打印链表](#6.从尾到头打印链表)
 
 ## 1.赋值运算符函数
 
@@ -95,3 +96,29 @@ char* str4 = "helloworld";
 首先遍历，确定有几个空格，然后设置两个指针，间隔为需要新增的长度，默认输入字符串后面有空余空间。
 
 - [5.替换空格代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/5.替换空格.cpp)
+
+## 6.从尾到头打印链表
+
+**题目：**
+输入一个链表的头结点，从尾到头反过来打印每个节点的值
+
+思路1：栈
+思路2：由于递归也是栈，用递归
+
+**栈：**
+c++中栈的使用方法：
+
+```c++
+#include <stack> 
+
+using namespace std;
+
+stack<类型> name;
+
+name.push();
+name.empty();
+name.top();
+name.pop();
+```
+
+- [6.从尾到头打印链表代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/6.从尾到头打印链表.cpp)
