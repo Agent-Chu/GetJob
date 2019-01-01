@@ -16,8 +16,8 @@
 
 ## 索引
 
-- [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer.md)
-- [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法.md)
+- [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/剑指offer.md)
+- [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
 - [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
 - [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)
 - [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md)
