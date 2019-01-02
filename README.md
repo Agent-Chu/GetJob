@@ -17,7 +17,7 @@
 ## 索引
 
 - [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/剑指offer.md)
-- [编程语言（C++)](https://github.com/linw7/Skill-Tree/blob/master/C++/C++.md)
+- [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
 
 - [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
