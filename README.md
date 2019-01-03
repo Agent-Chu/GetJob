@@ -19,12 +19,12 @@
 - [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/剑指offer.md)
 - [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
+- [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
 
 - [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
 - [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)
 - [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md)
 - [数据库](https://github.com/linw7/Skill-Tree/blob/master/数据库.md)
-- [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式.md)
 - [工具](https://github.com/CyC2018/CS-Notes#hammer-%E5%B7%A5%E5%85%B7)
 - [编码实践](https://github.com/CyC2018/CS-Notes#speak_no_evil-%E7%BC%96%E7%A0%81%E5%AE%9E%E8%B7%B5)
 - [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md)
