@@ -4,7 +4,7 @@
 - [面向对象基础](https://github.com/ChuangLiu727/GetJob/blob/master/C++/面向对象基础.md)
 - [标准模板库](https://github.com/ChuangLiu727/GetJob/blob/master/C++/标准模板库.md)
 - [编译](https://github.com/ChuangLiu727/GetJob/blob/master/C++/编译.md)
-- [调试](https://github.com/ChuangLiu727/GetJob/blob/master/C++/调试.md)
+- [Makefile](https://github.com/ChuangLiu727/GetJob/blob/master/C++/makefile.md)
 - [多线程](#多线程)
 - [进程](#进程)
 - [进程间通讯](#进程间通讯)

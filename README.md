@@ -20,17 +20,18 @@
 - [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
 - [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
-
-- [操作系统](https://github.com/linw7/Skill-Tree/blob/master/操作系统.md)
-- [Linux工具](https://github.com/linw7/Skill-Tree/blob/master/Linux工具.md)
-- [计算机网络](https://github.com/linw7/Skill-Tree/blob/master/计算机网络.md)
-- [数据库](https://github.com/linw7/Skill-Tree/blob/master/数据库.md)
-- [工具](https://github.com/CyC2018/CS-Notes#hammer-%E5%B7%A5%E5%85%B7)
-- [编码实践](https://github.com/CyC2018/CS-Notes#speak_no_evil-%E7%BC%96%E7%A0%81%E5%AE%9E%E8%B7%B5)
-- [错题精解](https://github.com/linw7/Skill-Tree/blob/master/错题精解.md)
-- [真题摘录](https://github.com/linw7/Skill-Tree/blob/master/真题摘录.md)
-- [LeetCode 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/Leetcode%20%E9%A2%98%E8%A7%A3.md)
+- [计算机网络](https://github.com/ChuangLiu727/GetJob/blob/master/计算机网络/计算机网络.md)
+- [错题](https://github.com/ChuangLiu727/GetJob/blob/master/错题/错题.md)
+- [真题摘录](https://github.com/ChuangLiu727/GetJob/blob/master/真题摘录/真题摘录.md)
+- [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/操作系统.md)
+- [Linux](https://github.com/ChuangLiu727/GetJob/blob/master/Linux/Linux.md)
+- [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/数据库.md)
+- [其他](https://github.com/ChuangLiu727/GetJob/blob/master/其他/其他.md)
 - [面试技巧](https://github.com/ChuangLiu727/GetJob/blob/master/面试技巧.md)
+
+---
+
+- [LeetCode 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/Leetcode%20%E9%A2%98%E8%A7%A3.md)
 
 ## 参考博客
 
