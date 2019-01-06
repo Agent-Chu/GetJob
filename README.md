@@ -1,18 +1,8 @@
 # 准备面试笔记（C++、后台开发等）
 
-开始时间18年12月19日星期三。
+**开始时间：**2018 年 12 月 19 日 星期三。
 
 一点点完善，路过可以star一下～
-
-## 实习学习计划
-
-- 单项知识点（12、1）
-- 剑指 Offer（2月）
-- 后台开发的面经
-- 项目
-- [校招真题](https://www.nowcoder.com/discuss/68802?type=0&order=0&pos=10&page=1)
-- LeetCode
-- 搜索岗位:猎聘APP + 校园招 + 牛客网
 
 ## 索引
 
@@ -39,7 +29,7 @@
 
 ---
 
-- [面试技巧](https://github.com/ChuangLiu727/GetJob/blob/master/面试技巧.md)
+- [项目与面试准备](https://github.com/ChuangLiu727/GetJob/blob/master/项目与面试准备.md)
 
 ---
 
@@ -48,18 +38,18 @@
 
 ## 参考
 
-### 博客
+### 参考博客
 
 - [zhengjianglong博客](https://zhengjianglong.gitbooks.io/note-of-interview/content/)
 - [CyC2018博客](https://github.com/CyC2018/CS-Notes)
 - [linw7博客](https://github.com/linw7/Skill-Tree)
 - [Java后台开发工程师秋招攻略2018Fall](http://williamsun.cn/2018/06/02/Java%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%A7%8B%E6%8B%9B%E6%94%BB%E7%95%A52018Fall/)
 
-### 书籍
+### 参考书籍
 
-- [真题摘录](https://github.com/ChuangLiu727/GetJob/blob/master/参考书籍.md)
+- [参考书籍](https://github.com/ChuangLiu727/GetJob/blob/master/参考书籍.md)
 
-### 排版
+### 参考排版
 
 [中文文案排版指北](https://mazhuang.org/wiki/chinese-copywriting-guidelines/)
 
