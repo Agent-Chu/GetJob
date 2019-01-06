@@ -30,7 +30,7 @@
 ---
 
 - [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
-- [其他](https://github.com/ChuangLiu727/GetJob/blob/master/其他/其他.md)
+- [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/常用工具.md)
 
 ---
 
