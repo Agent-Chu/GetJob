@@ -9,11 +9,11 @@
 - [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/剑指offer.md)
 - [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
+- [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/操作系统.md)
 
 ---
 
 - [计算机网络](https://github.com/ChuangLiu727/GetJob/blob/master/计算机网络/计算机网络.md)
-- [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/操作系统.md)
 - [Linux](https://github.com/ChuangLiu727/GetJob/blob/master/Linux/Linux.md)
 - [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/数据库.md)
 
