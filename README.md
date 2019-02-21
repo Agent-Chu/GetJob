@@ -9,11 +9,11 @@
 ### 基础知识
 
 - [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
-- [编程语言（Golang)](https://github.com/ChuangLiu727/GetJob/blob/master/Golang/Golang.md)
 - [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/操作系统.md)
 - [计算机网络](https://github.com/ChuangLiu727/GetJob/blob/master/计算机网络/计算机网络.md)
 - [Linux](https://github.com/ChuangLiu727/GetJob/blob/master/Linux/Linux.md)
 - [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/数据库.md)
+- [Redis](https://github.com/ChuangLiu727/GetJob/blob/master/Redis/Redis.md)
 - [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/常用工具.md)
 
 ### 算法
@@ -21,14 +21,13 @@
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
 - [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/剑指offer.md)
 
-### 面试题
+### 面试
 
-- [面试题整理](https://github.com/ChuangLiu727/GetJob/blob/master/面试题整理/面试题整理.md)
+- [面试](https://github.com/ChuangLiu727/GetJob/blob/master/面试/面试.md)
 
 ### ToDo
 
 - [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
-- [项目与面试准备](https://github.com/ChuangLiu727/GetJob/blob/master/项目与面试准备.md)
 - [系统设计](https://github.com/CyC2018/CS-Notes#bulb-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1)
 - [LeetCode 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/Leetcode%20%E9%A2%98%E8%A7%A3.md)
 
