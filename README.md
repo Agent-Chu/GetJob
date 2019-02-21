@@ -9,6 +9,7 @@
 ### 基础知识
 
 - [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
+- [编程语言（Golang)](https://github.com/ChuangLiu727/GetJob/blob/master/Golang/Golang.md)
 - [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/操作系统.md)
 - [计算机网络](https://github.com/ChuangLiu727/GetJob/blob/master/计算机网络/计算机网络.md)
 - [Linux](https://github.com/ChuangLiu727/GetJob/blob/master/Linux/Linux.md)
