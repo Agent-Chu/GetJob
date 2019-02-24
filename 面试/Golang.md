@@ -46,7 +46,6 @@ http://blog.taohuawu.club/article/42
 - [Go語言聖經（中文版）](https://wizardforcel.gitbooks.io/gopl-zh/content/)
 - [build-web-application-with-golang](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/preface.md)
 - [Go语言高级编程(Advanced Go Programming)](https://chai2010.gitbooks.io/advanced-go-programming-book/content/)
-
 - [深入解析Go](https://tiancaiamao.gitbooks.io/go-internals/content/zh/index.html)
 - []()
 - []()

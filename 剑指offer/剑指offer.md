@@ -1,5 +1,5 @@
 # 剑指 Offer
-
+剑指offer--go版本
 - [剑指 Offer 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E5%89%91%E6%8C%87%20offer%20%E9%A2%98%E8%A7%A3.md)
 - [1 赋值运算符函数](#1-赋值运算符函数)
 - [2 实现Singleton模式](#2-实现Singleton模式)
