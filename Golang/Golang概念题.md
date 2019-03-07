@@ -27,27 +27,22 @@
 - [golang方法method](#golang方法method)
 - [new跟make](#new跟make)
 - [切片](#切片)
+- [go程序调试](#go程序调试)
+- [如何写单元测试和基准测试](#如何写单元测试和基准测试)
+- [go读写锁](#go读写锁)
+- [go互斥锁](#go互斥锁)
+- [cap和len](#cap和len)
+- [golang垃圾回收](#golang垃圾回收)
+- [interface](#interface)
+- [生产者消费者](#生产者消费者)
 - [给以后的同学攒点golang的面经](https://www.nowcoder.com/discuss/145338)
+https://www.nowcoder.com/discuss/96475
 
 ---
 
 - [深入Go语言网络库的基础实现](http://skoo.me/go/2014/04/21/go-net-core)
 - [Go并发调度器解析之实现一个协程池](https://juejin.im/entry/5b1e31f0e51d45067c6305a3)
 - [Goroutine并发调度模型深度解析之手撸一个协程池](http://blog.taohuawu.club/article/42)
-
-选择三个常见golang组件（channel, goroutine, [], map, sync.Map等），列举它们常见的严重伤害性能的anti-pattern。
-
-什么是goroutine，他与process， thread有什么区别？
-2. 什么是channel，为什么它可以做到线程安全？
-3. 了解读写锁吗，原理是什么样的，为什么可以做到？
-4. 如何用channel实现一个令牌桶？
-5. 如何调试一个go程序？
-6. 如何写单元测试和基准测试？
-7. goroutine 的调度是怎样的？
-8. golang 的内存回收是如何做到的？
-9. cap和len分别获取的是什么？
-10. netgo，cgo有什么区别？
-11. 什么是interface？
 
 ## 正文
 
@@ -204,6 +199,8 @@ func main() {
 channel是语言级别的进程内的协程间的通信方式，是线程安全的
 
 使用基于消息传递的通信方式（而不是大多数语言所使用的基于共享内存的通信方式）进行协程间通信，并且将消息管道(channel)作为基本的数据类型，使用类型关键字(chan)进行定义，并发操作时线程安全。
+
+channel是协程不是线程。channel不会产生新的线程，所以线程安全
 
 ```go
 func main(){
@@ -549,7 +546,6 @@ make返回的还是这三个引用类型本身；而new返回的是指向类型�
     赋值：将一个切片赋值给另一个切片可指定索引
         第一个索引：指定切片的头部第二个索引：指定切片长度的尾部第三个索引：限制切片的容量
 
-
 参考下面代码：
 
 a := []int{1, 2, 3, 4, 5}
@@ -571,3 +567,197 @@ d 3 4
 e 1 2
 
     for-range返回的是每个元素的副本，而不是引用切片在函数件传递还是以值传递的方式传递，由于切片的尺寸很小，在函数间复制和传递切片的成本也很低。在64位结构的机器上，一个切片需要24个字节，指针字段8字节，长度和容量分别需要8字节，由于与切片关联的数据包含在底层数组里面，不属于切片本身，所以将切片复制给人以数组时对底层数组大小都不会有影响。
+
+### go读写锁
+
+读写锁实际是一种特殊的自旋锁，它把对共享资源的访问者划分成读者和写者，读者只对共享资源进行读访问，写者则需要对共享资源进行写操作。这种锁相对于自旋锁而言，能提高并发性，因为在多处理器系统中，它允许同时有多个读者来访问共享资源，最大可能的读者数为实际的逻辑CPU数。写者是排他性的，一个读写锁同时只能有一个写者或多个读者（与CPU数相关），但不能同时既有读者又有写者。
+
+```go
+package main
+
+import (
+    // "fmt"
+    "sync"
+    "time"
+)
+
+var m *sync.RWMutex
+
+func main() {
+    m = new(sync.RWMutex)
+
+    // 多个同时读
+    go read(1)
+    go read(2)
+
+    time.Sleep(2 * time.Second)
+}
+
+func read(i int) {
+    println(i, "read start")
+
+    m.RLock()
+    println(i, "reading")
+    time.Sleep(1 * time.Second)
+    m.RUnlock()
+
+    println(i, "read over")
+}
+
+```
+
+输出：可以看出1 读还没有结束，2已经在读
+
+```
+1 read start
+1 reading
+2 read start
+2 reading
+1 read over
+2 read over
+```
+
+### go互斥锁
+
+其中Mutex为互斥锁，Lock()加锁，Unlock()解锁，使用Lock()加锁后，便不能再次对其进行加锁，直到利用Unlock()解锁对其解锁后，才能再次加锁．适用于读写不确定场景，即读写次数没有明显的区别，并且只允许只有一个读或者写的场景，所以该锁也叫做全局锁。
+
+我们一般会在锁定互斥锁之后紧接着就用defer语句来保证该互斥锁的及时解锁。请看下面这个函数：
+
+```go
+var mutex sync.Mutex
+func write() {
+    mutex.Lock()
+    defer mutex.Unlock()
+    // 省略若干条语句
+}
+```
+
+### cap和len
+
+len() 可以用来查看数组或slice的长度
+
+cap()可以用来查看数组或slice的容量
+
+在数组中由于长度固定不可变，因此len(arr)和cap(arr)的输出永远相同
+
+在slice中，len(sli)表示可见元素有几个（也即直接打印元素看到的元素个数），而cap(sli)表示所有元素有几个
+
+```go
+arr := []int{2, 3, 5, 7, 11, 13}
+sli := arr[1:4]
+fmt.Println(sli)
+fmt.Println(len(sli))
+fmt.Println(cap(sli))
+```
+
+```
+[3 5 7]
+3
+5
+```
+
+### golang垃圾回收
+
+几乎所有新语言（java，python，php等等）都引入了语言层面的自动内存管理 – 也就是语言的使用者只用关注内存的申请而不必关心内存的释放，内存释放由虚拟机（virtual machine）或运行时（runtime）来自动进行管理。而这种对不再使用的内存资源进行自动回收的行为就被称为垃圾回收。
+
+- go语言垃圾回收总体采用的是经典的标记-清理（Mark-and-Sweep）算法，就是先标记出需要回收的内存对象快，然后在清理掉；
+
+- 该方法分为两步，标记从根变量开始迭代得遍历所有被引用的对象，对能够通过应用遍历访问到的对象都进行标记为“被引用”；标记完成后进行清除操作，对没有标记过的内存进行回收（回收同时可能伴有碎片整理操作）。
+
+- 每次启动垃圾回收都会暂停当前所有的正常代码执行，回收是系统响应能力大大降低
+- 会导致 stw (stop the world)的问题，中断用户逻辑
+
+- GC的优化方式原则就是尽可能少的声明临时变量：
+- 局部变量尽量复用；
+- 如果局部变量过多，可以把这些变量放到一个大结构体里面，这样扫描的时候可以只扫描一个变量，回收掉它包含的很多内存；
+
+触发GC机制
+
+- 1.在申请内存的时候，检查当前当前已分配的内存是否大于上次GC后的内存的2倍，若是则触发（主GC线程为当前M）
+- 2.监控线程发现上次GC的时间已经超过两分钟了，触发；将一个G任务放到全局G队列中去。（主GC线程为执行这个G任务的M）
+
+### interface
+
+- interface 是方法声明的集合
+- 任何类型的对象实现了在interface 接口中声明的全部方法，则表明该类型实现了该接口。
+- interface 可以作为一种数据类型，实现了该接口的任何对象都可以给对应的接口类型变量赋值。
+
+```go
+type Phone interface {
+    call()
+}
+
+type NokiaPhone struct {
+}
+
+func (nokiaPhone NokiaPhone) call() {
+    fmt.Println("I am Nokia, I can call you!")
+}
+
+type ApplePhone struct {
+}
+
+func (iPhone ApplePhone) call() {
+    fmt.Println("I am Apple Phone, I can call you!")
+}
+
+func main() {
+    var phone Phone
+    phone = new(NokiaPhone)
+    phone.call()
+
+    phone = new(ApplePhone)
+    phone.call()
+}
+```
+
+- interface{} 类型没有声明任何一个方法，俗称空接口。interface{} 在我们需要存储任意类型的数值的时候相当有用，有点类似于C语言的void*类型。
+
+```go
+func PrintAll(vals []interface{}) {
+    for _, val := range vals {
+        fmt.Println(val)
+    }
+}
+
+func main() {
+    names := []string{"stanley", "david", "oscar"}
+    vals := make([]interface{}, len(names))
+    for i, v := range names {
+        vals[i] = v
+    }
+    PrintAll(vals)
+}
+```
+
+### 生产者消费者
+
+```go
+package main
+
+import (
+    "fmt"
+    "math/rand"
+    "time"
+)
+
+func productor(channel chan string) {
+    for {
+        channel <- fmt.Sprintf("%v", rand.Float64())
+        time.Sleep(time.Second * time.Duration(1))
+    }
+}
+
+func customer(channel chan string) {
+    for {
+        message := <-channel // 此处会阻塞, 如果信道中没有数据的话
+        fmt.Println(message)
+    }
+}
+
+func main() {
+    channel := make(chan string, 5) // 定义带有5个缓冲区的信道(当然可以是其他数字)
+    go productor(channel)           // 将 productor 函数交给协程处理, 产生的结果传入信道中
+    customer(channel)               // 主线程从信道中取数据
+}
+```
