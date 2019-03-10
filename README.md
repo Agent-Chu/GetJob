@@ -22,9 +22,9 @@
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
 - [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/剑指offer.md)
 
-### 面试
+### 简历与面试事项
 
-- [面试](https://github.com/ChuangLiu727/GetJob/blob/master/面试/面试.md)
+- [简历与面试事项](https://github.com/ChuangLiu727/GetJob/blob/master/面试/简历与面试事项.md)
 
 ### 笔试
 
