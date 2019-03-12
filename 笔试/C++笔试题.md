@@ -22,7 +22,9 @@ void func() const;
 
 ## 计算变量占用内存大小
 
- 64位操作系统
+https://www.cnblogs.com/johnleo/p/struct_size.html
+
+64位操作系统
 char ：1个字节(固定)
 *(即指针变量): 8个字节
 short int : 2个字节(固定)
