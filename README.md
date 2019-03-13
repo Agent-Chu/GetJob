@@ -26,9 +26,9 @@
 
 - [简历与面试事项](https://github.com/ChuangLiu727/GetJob/blob/master/面试/简历与面试事项.md)
 
-### 笔试
+### 知识点
 
-- [笔试](https://github.com/ChuangLiu727/GetJob/blob/master/笔试/笔试.md)
+- [知识点](https://github.com/ChuangLiu727/GetJob/blob/master/知识点/知识点.md)
 
 ### ToDo
 
