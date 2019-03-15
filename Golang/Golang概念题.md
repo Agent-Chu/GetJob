@@ -124,6 +124,8 @@ func main() {
 
 ### golang与java的差异
 
+http://baijiahao.baidu.com/s?id=1604482531243718742&wfr=spider&for=pc
+
 ### Goroutines并发与协程
 
 **Goroutines**是与其他函数或方法同时运行的函数或方法。 Goroutines可以被认为是轻量级线程。 与线程相比，创建Goroutine的成本很小。 Go应用程序通常会同时运行数千个Goroutines。
