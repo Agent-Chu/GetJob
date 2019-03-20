@@ -1,5 +1,5 @@
 # 剑指 Offer
-剑指offer--go版本
+
 - [剑指 Offer 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E5%89%91%E6%8C%87%20offer%20%E9%A2%98%E8%A7%A3.md)
 - [1 赋值运算符函数](#1-赋值运算符函数)
 - [2 实现Singleton模式](#2-实现Singleton模式)
@@ -9,6 +9,10 @@
 - [6 从尾到头打印链表](#6-从尾到头打印链表)
 - [7 重建二叉树](#7-重建二叉树)
 - [8 二叉树的下一个结点](#8-二叉树的下一个结点)
+- [9 用两个栈实现队列](#9-用两个栈实现队列)
+- [10 斐波那契数列](#10-斐波那契数列)
+- [11 旋转数组的最小数字](#11-旋转数组的最小数字)
+- [16 数值的整数次方](#16-数值的整数次方)
 
 ## 1 赋值运算符函数
 
@@ -161,3 +165,178 @@ name.pop();
 - 后两种情况可以合并成一种，第二种不需要向上遍历而已
 
 - [8.二叉树的下一个结点](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/8.二叉树的下一个结点.cpp)
+
+## 9 用两个栈实现队列
+
+- 入栈元素压入栈1
+- 出栈时，如果栈2有则直接出
+- 如果栈2没有，则把栈1元素逐个弹出并压入栈2
+- 入栈判满，出栈判空
+
+```c++
+class Solution
+{
+public:
+    void push(int node) {
+        stack1.push(node);
+    }
+
+    int pop() {
+        if(stack2.size()<=0){
+            while(stack1.size()>0){
+                stack2.push(stack1.top());
+                stack1.pop();
+            }
+        }
+        int a;
+        a = stack2.top();
+        stack2.pop();
+        return a;
+    }
+
+private:
+    stack<int> stack1;
+    stack<int> stack2;
+};
+```
+
+## 10 斐波那契数列
+
+- 递归需要时间和空间消耗。每次调用都需要在内存的栈中分配空间保存参数、返回地址和临时变量。
+- 递归可能存在很多重复计算
+- 递归可能引起调用栈溢出，当调用层数太多时会超出栈的容量
+
+### 求斐波那契数列的第n项的值
+
+- 传统递归解法（效率低）
+
+```c++
+long long fibonacci(unsigned int n){
+    if(n <= 0){
+        return 0;
+    }
+    if(n == 1){
+        return 1;
+    }
+    return fibonacci(n-1)+fibonacci(n-2);
+}
+```
+
+- 循环解法
+- 从f(0),f(1)算出f(2)，一直算到f(n)
+
+```c++
+class Solution {
+public:
+    int Fibonacci(int n) {
+        if(n==0)
+            return 0;
+        if(n == 1)
+            return 1;
+        int fa = 1;
+        int fb = 0;
+        int fn = 0;
+        for(int i=2; i<=n;i++){
+            fn = fa+fb;
+            fb = fa;//这两行位置不能换
+            fa = fn;
+        }
+        return fn;
+    }
+};
+```
+
+### 青蛙跳台阶
+
+- 一只青蛙一次可以跳上1级台阶，或者2级，求这个青蛙跳上n级台阶有几种跳法
+- 可以转化成斐波那契数列
+- 当只有1级的时候只有一种跳法
+- 有2级的时候有两种，1+1和2
+- 当n级的时候，设为f(n)种跳法，当n>2时，针对第一次跳，可以跳1级，此时的跳法数目为后面n-1的跳法数，为f(n-1)
+- 同理，第一次跳也能跳2级，跳法数目为f(n-2)
+- 所以n级的跳法总数f(n) = f(n-1)+f(n-2)
+
+## 11 旋转数组的最小数字
+
+- 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
+- 如果直接遍历，时间复杂度为O(n)
+- 记录首位指针，最小的数把这个数组分为递增的两半
+- 直接取数组中间的数，如果这个数位于前面的递增数组，则这个数应该大于等于首指针指向的数，移动前面的
+- 如果这个数位于后面的递增数组，则这个数应该小于等于尾指针指向的数，移动后面的
+- 当这两个指针相遇（距离为1）则说明第二个指针已经指向了最小的数
+
+```c++
+class Solution {
+public:
+    int minNumberInRotateArray(vector<int> rotateArray) {
+        if(rotateArray.empty()){
+            return 0;
+        }
+        int start = 0;
+        int end = rotateArray.size()-1;
+        int mid = start;
+        while(rotateArray[start]>=rotateArray[end]){
+            if(end - start == 1){
+                mid = end;
+                break;
+            }
+            mid = (start+end)/2;
+            if(rotateArray[mid]>=rotateArray[start]){
+                start = mid;
+            }
+            else if(rotateArray[mid]<=rotateArray[end]){
+                end = mid;
+            }
+        }
+        return rotateArray[mid];
+    }
+};
+```
+
+## 16 数值的整数次方
+
+- 实现函数 double Power(double base, int exponent) 求base的ex次方，不能用库函数，不用考虑大数问题
+- 需要考虑指数为负数时，对指数先求绝对值，然后算出次方后再取倒数
+- 当底数为0并且指数为负数时，抛出异常
+- 当底数指数都为0时，数学上没有意义，返回0或者1
+
+- 当ex为偶数时，结果为 base的ex/2次方 乘 base的ex/2次方
+- 当ex为奇数时，结果为 base的(ex-1)/2次方 乘 base的(ex-1)/2次方 乘 base
+
+```c++
+class Solution {
+public:
+    double Power(double base, int exponent) {
+        if(exponent == 0){
+            return 1;
+        }
+        if(exponent == 1){
+            return base;
+        }
+        double result = Power(base,exponent>>2);//用位运算代替除2
+        result *= result;
+        if(exponent&0x1 == 1){//用位与运算符代替求余运算符
+            result *= base;
+        }
+        return result;
+    }
+};
+```
+
+循环做法：
+
+```c++
+class Solution {
+public:
+    double Power(double base, int exponent) {
+        long long p = abs((long long)exponent);
+        double r = 1.0;
+        while(p){
+            if(p & 1) r *= base;
+            base *= base;
+            p >>= 1;
+        }
+        return exponent < 0 ? 1/ r : r;
+    }
+};
+```
