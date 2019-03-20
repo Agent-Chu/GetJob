@@ -13,6 +13,8 @@
 - [10 斐波那契数列](#10-斐波那契数列)
 - [11 旋转数组的最小数字](#11-旋转数组的最小数字)
 - [16 数值的整数次方](#16-数值的整数次方)
+- [17 打印从1到最大的n位数](#17-打印从1到最大的n位数)
+- [18 删除链表中重复的结点](#18-删除链表中重复的结点)
 
 ## 1 赋值运算符函数
 
@@ -337,6 +339,99 @@ public:
             p >>= 1;
         }
         return exponent < 0 ? 1/ r : r;
+    }
+};
+```
+
+## 17 打印从1到最大的n位数
+
+输入数字n，按顺序打印出1到最大的n位十进制数
+
+## 18 删除链表中重复的结点
+
+- 普通删除结点：从头结点开始遍历到要删除的节点，再操作指针，此时需要删除结点的前一个结点
+- 如果给定了要删除结点的指针，则不需要前一个结点，可以直接把后一个结点的值赋给要删除的结点，再删除后一个结点即可
+
+时间复杂度O(1)删除：
+
+```c++
+void DeleteNode(ListNode** pListHead, ListNode* pToBeDeleted){
+    if(!pListHead||!pToBeDeleted){
+        return ;
+    }
+    //要删除的节点不是尾结点，O(1)
+    if(pToBeDeleted->next!=nullptr){
+        ListNode* pNext = pToBeDeleted->next;
+        pToBeDeleted->value = pNext->value;
+        pToBeDeleted->next = pNext->next;
+
+        delete pNext;
+        pNext = nullptr;
+    }
+    //链表中只有一个结点，删除头结点，也就是删除尾结点
+    else if(*pListHead == pToBeDeleted){
+        delete pToBeDeleted;
+        pToBeDeleted = nullptr;
+        *pListHead = nullptr;
+    }
+    //多个结点删除尾结点，因为尾结点没有下一个结点，所以只能遍历，找到前一个结点，时间复杂度为O(n)
+    else{
+        ListNode* pNode = *pListHead;
+        while(pNode->next!=pToBeDeleted){
+            pNode = pNode->next;
+        }
+        pNode->next = nullptr;
+        delete pToBeDeleted;
+        pToBeDeleted = nullptr;
+    }
+}
+```
+
+题目：在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+
+```c++
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    ListNode* deleteDuplication(ListNode* pHead)
+    {
+        //如果为0个结点或者1个结点
+        if(pHead==NULL||pHead->next==NULL){
+            return pHead;
+        }
+        //设置三个指针
+        else{
+            //使用构造函数，设置一个头结点，防止头结点要被删除,用于返回整个链表
+            ListNode* newHead = new ListNode(-1);
+            newHead->next = pHead;
+            
+            ListNode* pre = newHead;
+            ListNode* p = pHead;
+            ListNode* next = NULL;
+            while(p!=NULL&&p->next!=NULL){
+                next = p->next;
+                if(p->val == next->val){//如果当前节点的值和下一个节点的值相等
+                    while(next!=NULL&&next->val==p->val){//向后重复查找
+                        next = next->next;
+                    }
+                    pre->next = next;//因为不保留重复结点，所以需要pre结点
+                    p = next;
+                }
+                else{//如果当前节点和下一个节点值不等，则向后移动一位
+                    pre = p;
+                    p = p->next;
+                }
+            }
+            return newHead->next;
+        }
     }
 };
 ```
