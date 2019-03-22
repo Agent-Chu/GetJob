@@ -24,11 +24,12 @@
 
 ### 简历与面试事项
 
-- [简历与面试事项](https://github.com/ChuangLiu727/GetJob/blob/master/面试/简历与面试事项.md)
+- [简历](https://github.com/ChuangLiu727/GetJob/blob/master/面试/简历.md)
+- [面试](https://github.com/ChuangLiu727/GetJob/blob/master/面试/面试.md)
 
-### 笔试知识点
+### 面试知识点
 
-- [笔试知识点](https://github.com/ChuangLiu727/GetJob/blob/master/笔试知识点/笔试知识点.md)
+- [面试知识点](https://github.com/ChuangLiu727/GetJob/blob/master/面试知识点/面试知识点.md)
 
 ### ToDo
 
