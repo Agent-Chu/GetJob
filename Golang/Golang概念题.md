@@ -1,8 +1,7 @@
 # Golang概念题
 
-## 目录
-
 - [Go概念](#Go概念)
+- [Go语法](#Go语法)
 - [Go优点](#Go优点)
 - [Go运行时](#Go运行时)
 - [golang与java的差异](#golang与java的差异)
@@ -44,9 +43,7 @@ https://www.nowcoder.com/discuss/96475
 - [Go并发调度器解析之实现一个协程池](https://juejin.im/entry/5b1e31f0e51d45067c6305a3)
 - [Goroutine并发调度模型深度解析之手撸一个协程池](http://blog.taohuawu.club/article/42)
 
-## 正文
-
-### Go概念
+## Go概念
 
 - 是Google开发的一种静态强类型、编译型、并发型，并具有垃圾回收功能的编程语言
 - 强类型指的是程序中表达的任何对象所从属的类型都必须能在编译时刻确定。强类型是针对类型检查的严格程度而言的，它指任何变量在使用的时候必须要指定这个变量的类型，而且在程序的运行过程中这个变量只能存储这个类型的数据。
@@ -57,7 +54,24 @@ https://www.nowcoder.com/discuss/96475
 - Go有 Package runtime ，包含与 Go 的运行时系统交互的操作，不包含虚拟机，在运行前编译
 - Go 编译器产生的是本地可执行代码，这些代码仍旧运行在 Go 的 runtime
 
-### Go优点
+## Go语法
+
+### go中的取反操作
+
+对x取反：^x
+
+### golang中大多数数据类型都可以转化为有效的JSON文本，下面几种类型除外（）
+正确答案: B C D   你的答案: 空 (错误)
+
+指针
+
+channel
+
+complex
+
+函数
+
+## Go优点
 
 - 一种解释的动态类型语言
 - 静态类型编译语言的效率和安全性
@@ -85,7 +99,7 @@ https://www.nowcoder.com/discuss/96475
 内置强大的工具，Go语言里面内置了很多工具链，最好的应该是gofmt工具，自动化格式化代码，能够让团队review变得如此的简单，代码格式一模一样，想不一样都很困难。
 跨平台编译，如果你写的Go代码不包含cgo，那么就可以做到window系统编译linux的应用，如何做到的呢？Go引用了plan9的代码，这就是不依赖系统的信息。内嵌C支持，前面说了作者是C的作者，所以Go里面也可以直接包含c代码，利用现有的丰富的C库。
 
-### Go运行时
+## Go运行时
 
 尽管Go编译器产生的是本地可执行代码，这些代码仍旧运行在Go的runtime（这部分的代码可以在runtime包中找到）当中，这个runtime类似虚拟机，它负责管理包括内存分配、垃圾回收、栈处理、goroutine、channel、slice、map和reflection等等。
 
@@ -118,13 +132,11 @@ func main() {
     fmt.Println("archive:", runtime.GOOS)
 }
 
-
-
-### golang与java的差异
+## golang与java的差异
 
 http://baijiahao.baidu.com/s?id=1604482531243718742&wfr=spider&for=pc
 
-### Goroutines并发与协程
+## Goroutines并发与协程
 
 **Goroutines**是与其他函数或方法同时运行的函数或方法。 Goroutines可以被认为是轻量级线程。 与线程相比，创建Goroutine的成本很小。 Go应用程序通常会同时运行数千个Goroutines。
 
@@ -179,7 +191,7 @@ func handleConnection(conn net.Conn) {
 }
 ```
 
-### 函数多返回值
+## 函数多返回值
 
 ```go
 package main
@@ -194,7 +206,7 @@ func main() {
 }
 ```
 
-### 基于消息传递的通信方式channel
+## 基于消息传递的通信方式channel
 
 channel是语言级别的进程内的协程间的通信方式，是线程安全的
 
@@ -218,7 +230,7 @@ func main(){
 }
 ```
 
-### 丰富实用的内置数据类型
+## 丰富实用的内置数据类型
 
 - 传统的整型、浮点型、字符型、数组、结构等类型。
 - string 字符串类型
@@ -229,7 +241,7 @@ func main(){
 - chan 管道类型
 - 任意类型(Interface{})
 
-### defer机制
+## defer机制
 
 通过该关键字指定需要延迟执行的逻辑体，即在函数体return前或出现panic时执行。这种机制非常适合善后逻辑处理，比如可以尽早避免可能出现的资源泄漏问题。
 
@@ -258,7 +270,7 @@ num =  666
 main协程结束
 ```
 
-### 反射
+## 反射
 
 ```go
 import "reflect"
@@ -273,11 +285,11 @@ str := "this is string"
 type := reflect.TypeOf(str)
 ```
 
-### 高性能HTTPServer
+## 高性能HTTPServer
 
 GO在语言级别自带HTTP/TCP/UDP高性能服务器，基于协程并发，为业务开发提供最直接有效的能力支持。要在GO语言中实现一个高性能的HTTP Server，只需要几行代码即可完成，非常简单。
 
-### 工程管理与编程规范
+## 工程管理与编程规范
 
 在GO语言中，有一套标准的工程管理规范，只要按照这个规范进行项目开发，之后的事情（比如包管理、编译等等）都将变得非常的简单。
 
@@ -287,13 +299,13 @@ GO在语言级别自带HTTP/TCP/UDP高性能服务器，基于协程并发，为
 
 GO语言的编程规范强制集成在语言中，比如明确规定花括号摆放位置，强制要求一行一句，不允许导入没有使用的包，不允许定义没有使用的变量，提供gofmt工具强制格式化代码等等。
 
-### 在一行语句中定义多个不同类型变量
+## 在一行语句中定义多个不同类型变量
 
 ```go
 var a, b, c =  3,  4,  "foo"  
 ```
 
-### Go的指针
+## Go的指针
 
 **指针变量** 保存变量的地址
 
@@ -303,7 +315,7 @@ var p *int =  &x
 fmt.Printf("x = %d",  *p)
 ```
 
-### Go需要显式类型转换
+## Go需要显式类型转换
 
 ```go
 i := 55      //int
@@ -311,9 +323,7 @@ j := 67.8    //float64
 sum := i + int(j) //j is converted to int
 ```
 
-
-
-### Go没有异常
+## Go没有异常
 
 Go代码使用错误值来指示异常状态。
 
@@ -329,7 +339,7 @@ if err != nil {
 // do something with the open *File f
 ```
 
-### Go变量声明语法
+## Go变量声明语法
 
 ```go
 // 1 - variable declaration, then assignment
@@ -356,18 +366,18 @@ name, age4 := "naveen", 29 //short hand declaration
 
 如果没有为变量赋值，则使用变量类型的零值自动初始化它。
 
-### Go是不是面向对象语言
+## Go是不是面向对象语言
 
 - Go有面向对象的特性，但是没有类的继承
 
-#### Go Object-Oriented Language Features
+### Go Object-Oriented Language Features
 
 - **Structs** - 结构是用户定义的类型。结构类型（使用方法）与其他语言中的类具有相似的用途。大写是包外可见的，小写的struct或函数只能在包内使用。
 - **Methods** - 方法是对特定类型进行操作的函数
 - **Embedding** - golang 中没有继承，但是其结构体内联的方式和继承很像
 - **Interfaces** - 接口是声明方法集的类型。与其他语言的接口类似，它们没有实现。实现所有接口方法的对象自动实现接口。没有继承或子类或“implements”关键字。
 
-#### The Go way to implement
+### The Go way to implement
 
 - **Encapsulation** - Go封装了包级别的东西。以小写字母开头的名称仅在该包中可见。您可以隐藏私有包中的任何内容，只显示特定类型，接口和工厂函数。
 - **Inheritance** - 由*embedding*组成的匿名类型等同于实现继承。
@@ -436,13 +446,13 @@ func main() {
 }
 ```
 
-### Go2特性
+## Go2特性
 
 - 修复Go无法扩展的最重要方式
 - 提供向后兼容性
 - Go 2不得拆分Go生态系统
 
-### Go中的rune
+## Go中的rune
 
 - 除了数字，还有其他字符，需要用32位表示他们，比如中文是utf8编码，占三个字节
 - rune 英文占一个字节，中文占三个字节
@@ -454,7 +464,7 @@ func main() {
 - byte 等同于int8，常用来处理ascii字符
 - rune 等同于int32,常用来处理unicode或utf-8字符
 
-### Go常量
+## Go常量
 
 - 除非明确指定类型，否则golang中的任何常量（无名或无名）都是无类型的。
 
@@ -470,7 +480,7 @@ var myComplex64 complex64 = 4.5
 const typedInt int = 1  
 ```
 
-### golangmap的实现
+## golangmap的实现
 
 由于go语言是一个强类型的语言，因此hashmap也是有类型的，具体体现在key和value都必须指定类型，比如声明一个key为string，value也是string的map，
 需要这样做
@@ -487,7 +497,23 @@ m := make(map[string]string) // 使用make来初始化
 
 golang的map是hash结构的，意味着平均访问时间是O(1)的。同传统的hashmap一样，由一个个bucket组成
 
-### golang方法method
+### golang如何实现一个HashMap
+
+- go语言是一个强类型的语言，因此hashmap也是有类型的，具体体现在key和value都必须指定类型
+- m := make(map[string]string) // 使用make来初始化
+
+```
+// 测试key是否存在
+v, ok := m["b"]
+if ok {
+    ...
+}
+
+// 删除一个key
+delete(m, "a")
+```
+
+## golang方法method
 
 - GO的方法是定义在一个接收者上的一个函数，接收者是某种类型的变量；
 - GO的方法其实就是一个变种的函数
@@ -522,7 +548,7 @@ func (t *T) Add() {
 - method里面可以访问接收者的字段
 - 调用method通过.访问，就像struct里面访问字段一样
 
-### new跟make
+## new跟make
 
 func new(Type) *Type
 分配空间，参数一个类型，返回值指向这个新分配的零值的指针
@@ -537,7 +563,7 @@ make也是用于内存分配的，但是和new不同，它只用于chan、map以
 
 make返回的还是这三个引用类型本身；而new返回的是指向类型的指针。
 
-### 切片
+## 切片
 
     make([]int,l,c) ，l为长度，c为容量，不传c则容量等于长度底层还是数组，通过len()获取长度，cap()获取容量append之后返回的是一个新的切片扩容：
         capacity小于1000时，两倍扩容capacity大于1000时，增长因子为1.25，25%扩容nil切片的数组指针为nil，而空切片的数组指针指向一个没有分配任何内存空间的地址，即底层元素包含0个元素。不管nil切片还是空切片，对其调用append，len和cap的效果都是一样的。
@@ -568,7 +594,7 @@ e 1 2
 
 for-range返回的是每个元素的副本，而不是引用切片在函数件传递还是以值传递的方式传递，由于切片的尺寸很小，在函数间复制和传递切片的成本也很低。在64位结构的机器上，一个切片需要24个字节，指针字段8字节，长度和容量分别需要8字节，由于与切片关联的数据包含在底层数组里面，不属于切片本身，所以将切片复制给人以数组时对底层数组大小都不会有影响。
 
-### go读写锁
+## go读写锁
 
 读写锁实际是一种特殊的自旋锁，它把对共享资源的访问者划分成读者和写者，读者只对共享资源进行读访问，写者则需要对共享资源进行写操作。这种锁相对于自旋锁而言，能提高并发性，因为在多处理器系统中，它允许同时有多个读者来访问共享资源，最大可能的读者数为实际的逻辑CPU数。写者是排他性的，一个读写锁同时只能有一个写者或多个读者（与CPU数相关），但不能同时既有读者又有写者。
 
@@ -617,7 +643,7 @@ func read(i int) {
 2 read over
 ```
 
-### go互斥锁
+## go互斥锁
 
 其中Mutex为互斥锁，Lock()加锁，Unlock()解锁，使用Lock()加锁后，便不能再次对其进行加锁，直到利用Unlock()解锁对其解锁后，才能再次加锁．适用于读写不确定场景，即读写次数没有明显的区别，并且只允许只有一个读或者写的场景，所以该锁也叫做全局锁。
 
@@ -656,7 +682,7 @@ fmt.Println(cap(sli))
 5
 ```
 
-### golang垃圾回收
+## golang垃圾回收
 
 几乎所有新语言（java，python，php等等）都引入了语言层面的自动内存管理 – 也就是语言的使用者只用关注内存的申请而不必关心内存的释放，内存释放由虚拟机（virtual machine）或运行时（runtime）来自动进行管理。而这种对不再使用的内存资源进行自动回收的行为就被称为垃圾回收。
 
@@ -676,7 +702,16 @@ fmt.Println(cap(sli))
 - 1.在申请内存的时候，检查当前当前已分配的内存是否大于上次GC后的内存的2倍，若是则触发（主GC线程为当前M）
 - 2.监控线程发现上次GC的时间已经超过两分钟了，触发；将一个G任务放到全局G队列中去。（主GC线程为执行这个G任务的M）
 
-### interface
+### golang什么时候执行STOP THE WORLD？
+
+go语言垃圾回收总体采用的是经典的标记-清理（Mark-and-Sweep）算法，就是先标记出需要回收的内存对象快，然后在清理掉；
+
+- 该方法分为两步，标记从根变量开始迭代得遍历所有被引用的对象，对能够通过应用遍历访问到的对象都进行标记为“被引用”；标记完成后进行清除操作，对没有标记过的内存进行回收（回收同时可能伴有碎片整理操作）。
+
+- 每次启动垃圾回收都会暂停当前所有的正常代码执行，回收是系统响应能力大大降低
+- 会导致 stw (stop the world)的问题，中断用户逻辑
+
+## interface
 
 - interface 是方法声明的集合
 - 任何类型的对象实现了在interface 接口中声明的全部方法，则表明该类型实现了该接口。
@@ -730,7 +765,7 @@ func main() {
 }
 ```
 
-### 生产者消费者
+## 生产者消费者
 
 ```go
 package main

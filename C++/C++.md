@@ -5,8 +5,5 @@
 - [标准模板库](https://github.com/ChuangLiu727/GetJob/blob/master/C++/标准模板库.md)
 - [编译](https://github.com/ChuangLiu727/GetJob/blob/master/C++/编译.md)
 - [Makefile](https://github.com/ChuangLiu727/GetJob/blob/master/C++/makefile.md)
-- [多线程](#多线程)
-- [进程](#进程)
-- [进程间通讯](#进程间通讯)
 
 ---
