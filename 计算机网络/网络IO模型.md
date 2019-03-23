@@ -1,23 +1,4 @@
-- [一、I/O 模型](#一io-模型)
-
-- [二、网络 I/O 模型](#三网络io-模型)
-  - [阻塞式 I/O](#阻塞式-io)
-  - [非阻塞式 I/O](#非阻塞式-io)
-  - [I/O 复用](#io-复用)
-  - [信号驱动 I/O](#信号驱动-io)
-  - [异步 I/O](#异步-io)
-  - [五大 I/O 模型比较](#五大-io-模型比较)
-- [三、I/O 复用](#三io-复用)
-  - [select](#select)
-  - [poll](#poll)
-  - [比较](#比较)
-  - [epoll](#epoll)
-  - [工作模式](#工作模式)
-  - [应用场景](#应用场景)
-
----
-
-# 一、I/O 模型
+# 网络 I/O 模型
 
 ## IO两种操作
 
@@ -38,19 +19,24 @@
 
 对于一个套接字上的输入操作，第一步通常涉及等待数据从网络中到达。当所等待数据到达时，它被复制到内核中的某个缓冲区。第二步就是把数据从内核缓冲区复制到应用进程缓冲区。
 
-# 二、网络 I/O 模型
+## 四种网络 I/O 模型
 
 - 阻塞式 I/O
 - 非阻塞式 I/O
 - I/O 复用（select 和 poll）
-- 信号驱动式 I/O（SIGIO）
 - 异步 I/O（AIO）
+
+## IO模型的两个阶段
+
+- wait for data：准备数据，等到足够的数据到来，进入系统内核
+- copy data from kernel to user：将数据从系统内核拷贝到用户内存中
 
 ## 阻塞式 I/O
 
-应用进程被阻塞，直到数据复制到应用进程缓冲区中才返回。
+- 在等待数据和拷贝数据两个阶段，应用进程都被阻塞
+- 直到数据复制到应用进程缓冲区中才返回。
 
-应该注意到，在阻塞的过程中，其它程序还可以执行，因此阻塞不意味着整个操作系统都被阻塞。因为其他程序还可以执行，所以不消耗 CPU 时间，这种模型的 CPU 利用率效率会比较高。
+- 在阻塞的过程中，其它程序还可以执行，因此阻塞不意味着整个操作系统都被阻塞。因为其他程序还可以执行，所以不消耗 CPU 时间，这种模型的 CPU 利用率效率会比较高。
 
 recvfrom 用于接收 Socket 传来的数据，并复制到应用进程的缓冲区 buf 中。这里把 recvfrom() 当成系统调用。
 
@@ -60,256 +46,113 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *
 
 ## 非阻塞式 I/O
 
-应用进程执行系统调用之后，内核返回一个错误码。应用进程可以继续执行，但是需要不断的执行系统调用来获知 I/O 是否完成，这种方式称为轮询（polling）。
+- 应用进程执行系统调用之后，内核返回一个错误码。
+- 应用进程可以继续执行，但是需要不断的执行系统调用来获知 I/O 是否完成，这种方式称为轮询（polling）。
+- 由于 CPU 要处理更多的系统调用，因此这种模型的 CPU 利用率是比较低的。
 
-由于 CPU 要处理更多的系统调用，因此这种模型的 CPU 利用率是比较低的。
+## I/O 多路复用
 
-## I/O 复用
+- select/poll/epoll 都是 I/O 多路复用的具体实现，select 出现的最早，之后是 poll，再是 epoll。
 
-使用 select 或者 poll 等待数据，并且可以等待多个套接字中的任何一个变为可读。这一过程会被阻塞，当某一个套接字可读时返回，之后再使用 recvfrom 把数据从内核复制到进程中。
+- 使用 select 或者 poll 等待数据，这个函数会轮询所有套接字，当某个套接字有数据到达，就通知用户进程
+- 用户进程调用了select，整个进程会被阻塞，内核开始监视套接字
+- 它可以让单个进程具有处理多个 I/O 事件的能力。又被称为 Event Driven I/O，即事件驱动 I/O。
 
-它可以让单个进程具有处理多个 I/O 事件的能力。又被称为 Event Driven I/O，即事件驱动 I/O。
+缺点：
 
-如果一个 Web 服务器没有 I/O 复用，那么每一个 Socket 连接都需要创建一个线程去处理。如果同时有几万个连接，那么就需要创建相同数量的线程。相比于多进程和多线程技术，I/O 复用不需要进程线程创建和切换的开销，系统开销更小。
+- 模型本身和阻塞IO区别不大，甚至更差，因为要使用两个系统调用 select 和 recvfrom
 
-## 信号驱动 I/O
+优点：
 
-应用进程使用 sigaction 系统调用，内核立即返回，应用进程可以继续执行，也就是说等待数据阶段应用进程是非阻塞的。内核在数据到达时向应用进程发送 SIGIO 信号，应用进程收到之后在信号处理程序中调用 recvfrom 将数据从内核复制到应用进程中。
-
-相比于非阻塞式 I/O 的轮询方式，信号驱动 I/O 的 CPU 利用率更高。
+- 可以处理多个链接
+- 如果一个 Web 服务器没有 I/O 复用，那么每一个 Socket 连接都需要创建一个线程去处理。如果同时有几万个连接，那么就需要创建相同数量的线程。相比于多进程和多线程技术，I/O 复用不需要进程线程创建和切换的开销，系统开销更小。
 
 ## 异步 I/O
 
-应用进程执行 aio_read 系统调用会立即返回，应用进程可以继续执行，不会被阻塞，内核会在所有操作完成之后向应用进程发送信号。
+- 应用进程执行 aio_read 系统调用会立即返回，应用进程可以继续执行，不会被阻塞，内核会在所有操作完成之后向应用进程发送通知信号。
+- 进程收到通知后开始阻塞，开始拷贝数据
 
-异步 I/O 与信号驱动 I/O 的区别在于，异步 I/O 的信号是通知应用进程 I/O 完成，而信号驱动 I/O 的信号是通知应用进程可以开始 I/O。
+## I/O 模型比较
 
-## 五大 I/O 模型比较
-
+- 在拷贝数据阶段都会阻塞
 - 同步 I/O：将数据从内核缓冲区复制到应用进程缓冲区的阶段，应用进程会阻塞。
 - 异步 I/O：不会阻塞。
-
-阻塞式 I/O、非阻塞式 I/O、I/O 复用和信号驱动 I/O 都是同步 I/O，它们的主要区别在第一个阶段。
-
-非阻塞式 I/O 、信号驱动 I/O 和异步 I/O 在第一阶段不会阻塞。
+- 阻塞式 I/O、非阻塞式 I/O、I/O 复用 都是同步 I/O，它们的主要区别在第一个阶段。
+- 非阻塞式 I/O 和异步 I/O 在第一阶段不会阻塞。
 
 <div align="center"> <img src="pics/1492928105791_3.png"/> </div><br>
 
-# 三、I/O 复用
-
-select/poll/epoll 都是 I/O 多路复用的具体实现，select 出现的最早，之后是 poll，再是 epoll。
-
 ## select
 
-```c
-int select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
-```
+- select 有三种类型的描述符类型：readset、writeset、exceptset，分别对应读、写、异常条件的描述符集合。
 
-有三种类型的描述符类型：readset、writeset、exceptset，分别对应读、写、异常条件的描述符集合。fd_set 使用数组实现，数组大小使用 FD_SETSIZE 定义。
-
-timeout 为超时参数，调用 select 会一直阻塞直到有描述符的事件到达或者等待的时间超过 timeout。
-
-成功调用返回结果大于 0，出错返回结果为 -1，超时返回结果为 0。
-
-```c
-fd_set fd_in, fd_out;
-struct timeval tv;
-
-// Reset the sets
-FD_ZERO( &fd_in );
-FD_ZERO( &fd_out );
-
-// Monitor sock1 for input events
-FD_SET( sock1, &fd_in );
-
-// Monitor sock2 for output events
-FD_SET( sock2, &fd_out );
-
-// Find out which socket has the largest numeric value as select requires it
-int largest_sock = sock1 > sock2 ? sock1 : sock2;
-
-// Wait up to 10 seconds
-tv.tv_sec = 10;
-tv.tv_usec = 0;
-
-// Call the select
-int ret = select( largest_sock + 1, &fd_in, &fd_out, NULL, &tv );
-
-// Check if select actually succeed
-if ( ret == -1 )
-    // report error and abort
-else if ( ret == 0 )
-    // timeout; no event detected
-else
-{
-    if ( FD_ISSET( sock1, &fd_in ) )
-        // input event on sock1
-
-    if ( FD_ISSET( sock2, &fd_out ) )
-        // output event on sock2
-}
-```
-
-## poll
-
-```c
-int poll(struct pollfd *fds, unsigned int nfds, int timeout);
-```
-
-pollfd 使用链表实现。
-
-```c
-// The structure for two events
-struct pollfd fds[2];
-
-// Monitor sock1 for input
-fds[0].fd = sock1;
-fds[0].events = POLLIN;
-
-// Monitor sock2 for output
-fds[1].fd = sock2;
-fds[1].events = POLLOUT;
-
-// Wait 10 seconds
-int ret = poll( &fds, 2, 10000 );
-// Check if poll actually succeed
-if ( ret == -1 )
-    // report error and abort
-else if ( ret == 0 )
-    // timeout; no event detected
-else
-{
-    // If we detect the event, zero it out so we can reuse the structure
-    if ( fds[0].revents & POLLIN )
-        fds[0].revents = 0;
-        // input event on sock1
-
-    if ( fds[1].revents & POLLOUT )
-        fds[1].revents = 0;
-        // output event on sock2
-}
-```
-
-## 比较
-
-### 1. 功能
-
-select 和 poll 的功能基本相同，不过在一些实现细节上有所不同。
+## select 和 poll 比较
 
 - select 会修改描述符，而 poll 不会；
-- select 的描述符类型使用数组实现，FD_SETSIZE 大小默认为 1024，因此默认只能监听 1024 个描述符。如果要监听更多描述符的话，需要修改 FD_SETSIZE 之后重新编译；而 poll 的描述符类型使用链表实现，没有描述符数量的限制；
+- select 的描述符类型(fd_set)使用数组实现，FD_SETSIZE 大小默认为 1024，因此默认只能监听 1024 个描述符。如果要监听更多描述符的话，需要修改 FD_SETSIZE 之后重新编译；而 poll 的描述符类型(pollfd)使用链表实现，没有描述符数量的限制；
 - poll 提供了更多的事件类型，并且对描述符的重复利用上比 select 高。
-- 如果一个线程对某个描述符调用了 select 或者 poll，另一个线程关闭了该描述符，会导致调用结果不确定。
-
-### 2. 速度
-
-select 和 poll 速度都比较慢。
-
 - select 和 poll 每次调用都需要将全部描述符从应用进程缓冲区复制到内核缓冲区。
 - select 和 poll 的返回结果中没有声明哪些描述符已经准备好，所以如果返回值大于 0 时，应用进程都需要使用轮询的方式来找到 I/O 完成的描述符。
+- poll 在应付大文件的时候快
+- 几乎所有的系统都支持 select，但是只有比较新的系统支持 poll。
 
-### 3. 可移植性
+## epoll及其优点
 
-几乎所有的系统都支持 select，但是只有比较新的系统支持 poll。
+- epoll_ctl() 用于向内核注册新的描述符或者是改变某个文件描述符的状态。已注册的描述符在内核中会被维护在一棵红黑树上，通过回调函数内核会将 I/O 准备好的描述符加入到一个链表中管理，进程调用 epoll_wait() 便可以得到事件完成的描述符。
+- epoll 只需要将描述符从进程缓冲区向内核缓冲区拷贝一次，并且进程不需要通过轮询来获得事件完成的描述符。
+- epoll 仅适用于 Linux OS。select兼容性好
+- epoll 没有描述符数量限制。select 最大上限是1024/2048，而 epoll 最大是最大可以打开文件的数目，一般远大于2048
+- epoll 对多线程编程更有友好，一个线程调用了 epoll_wait() 另一个线程关闭了同一个描述符也不会产生像 select 和 poll 的不确定情况。
+- epoll 的效率不随打开文件数目的增加而线性下降
 
-## epoll
+## epoll工作模式
 
-```c
-int epoll_create(int size);
-int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；
-int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
+- epoll 的描述符事件有两种触发模式：LT（level trigger）（水平触发）和 ET（edge trigger）（边缘触发）。
+- LT 模式：当 epoll_wait() 检测到采用LT的描述符事件到达时，将此事件通知进程，进程可以不立即处理该事件，下次调用 epoll_wait() 会再次通知进程。是默认的一种模式，并且同时支持 Blocking 和 No-Blocking。
+- ET 模式：当 epoll_wait() 检测到采用ET的描述符事件到达时，将此事件通知进程，通知之后进程必须立即处理事件，下次再调用 epoll_wait() 时不会再得到事件到达的通知。
+- ET 模式：很大程度上减少了 epoll 事件被重复触发的次数，因此效率要比 LT 模式高。只支持 No-Blocking，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。
+
+## select epoll 区别
+
+- select 的 timeout 参数精度为 1ns，而 poll 和 epoll 为 1ms，因此 select 更加适用于实时性要求比较高的场景，比如核反应堆的控制。
+- epoll 没有描述符数量限制。select 最大上限是1024/2048，而 epoll 最大是最大可以打开文件的数目，一般远大于2048
+- epoll 只运行在 Linux 平台上，select 可移植性更好，几乎被所有主流平台所支持。
+- epoll 可以同时轮询大量的描述符，并且这些连接最好是长连接。如果需要同时监控小于 1000 个描述符，而且都是非常短暂的，就没有必要使用 epoll
+
+## epoll数据结构epoll_event定义
+
+```c++
+typedef union epoll_data {
+    void *ptr;
+    int fd;
+    __uint32_t u32;
+    __uint64_t u64;
+}epoll_data_t;
+struct epoll_event {
+    __uint32_t events; /* Epoll events */
+    epoll_data_t data; /* User data variable */
+};
 ```
 
-epoll_ctl() 用于向内核注册新的描述符或者是改变某个文件描述符的状态。已注册的描述符在内核中会被维护在一棵红黑树上，通过回调函数内核会将 I/O 准备好的描述符加入到一个链表中管理，进程调用 epoll_wait() 便可以得到事件完成的描述符。
+- epoll_data是一个union结构体,可以保存很多类型的信息:fd,指针,等等.有了这个结构体,epoll很快定位，在一个大规模并发的服务器中,轮询IO是最耗时间的操作之一
 
-从上面的描述可以看出，epoll 只需要将描述符从进程缓冲区向内核缓冲区拷贝一次，并且进程不需要通过轮询来获得事件完成的描述符。
+## epoll 为什么速度快
 
-epoll 仅适用于 Linux OS。
+- 调用epoll_ctl往里塞入百万个句柄时，epoll_wait仍然可以飞快的返回，并有效的将发生事件的句柄给我们用户。
+- 这是由于我们在调用epoll_create时，内核除了帮我们在epoll文件系统里建了个file结点，在内核cache里建了个红黑树用于存储以后epoll_ctl传来的socket外，还会再建立一个list链表，用于存储准备就绪的事件，当epoll_wait调用时，仅仅观察这个list链表里有没有数据即可。有数据就返回，没有数据就sleep，等到timeout时间到后即使链表没数据也返回。而不需要像select那样需要在用户态去判断每个套接字上是否有事件发生。所以，epoll_wait非常高效。
+- epoll_ctl() 用于向内核注册新的描述符或者是改变某个文件描述符的状态。已注册的描述符在内核中会被维护在一棵红黑树上，通过回调函数内核会将 I/O 准备好的描述符加入到准备就绪list链表中管理，进程调用 epoll_wait() 便可以得到事件完成的描述符。
+　　
+- 执行epoll_create时，创建了红黑树和就绪链表
+- 执行epoll_ctl时，如果增加socket句柄，则检查在红黑树中是否存在，存在立即返回，不存在则添加到树干上，然后向内核注册回调函数，用于当中断事件来临时向准备就绪链表中插入数据。
+- 执行epoll_wait时立刻返回准备就绪链表里的数据即可。
 
-epoll 比 select 和 poll 更加灵活而且没有描述符数量限制。
+## 不同的线程或者进程在处理同一个SOCKET的事件
 
-epoll 对多线程编程更有友好，一个线程调用了 epoll_wait() 另一个线程关闭了同一个描述符也不会产生像 select 和 poll 的不确定情况。
+- epoll有两种触发的方式即LT（水平触发）和ET（边缘触发）两种，在前者，只要存在着事件就会不断的触发，直到处理完成，而后者只触发一次相同事件或者说只在从非触发到触发两个状态转换的时候儿才触发。
+- 如果是多线程在处理，一个SOCKET事件到来，数据开始解析，这时候这个SOCKET又来了同样一个这样的事件，而你的数据解析尚未完成，那么程序会自动调度另外一个线程或者进程来处理新的事件，这造成一个很严重的问题，不同的线程或者进程在处理同一个SOCKET的事件，这会使程序的健壮性大降低而编程的复杂度大大增加，即使在ET模式下也有可能出现这种情况
 
-```c
-// Create the epoll descriptor. Only one is needed per app, and is used to monitor all sockets.
-// The function argument is ignored (it was not before, but now it is), so put your favorite number here
-int pollingfd = epoll_create( 0xCAFE );
+解决方法：
 
-if ( pollingfd < 0 )
- // report error
+- 第一种方法是在单独的线程或进程里解析数据，也就是说，接收数据的线程接收到数据后立刻将数据转移至另外的线程。
 
-// Initialize the epoll structure in case more members are added in future
-struct epoll_event ev = { 0 };
-
-// Associate the connection class instance with the event. You can associate anything
-// you want, epoll does not use this information. We store a connection class pointer, pConnection1
-ev.data.ptr = pConnection1;
-
-// Monitor for input, and do not automatically rearm the descriptor after the event
-ev.events = EPOLLIN | EPOLLONESHOT;
-// Add the descriptor into the monitoring list. We can do it even if another thread is
-// waiting in epoll_wait - the descriptor will be properly added
-if ( epoll_ctl( epollfd, EPOLL_CTL_ADD, pConnection1->getSocket(), &ev ) != 0 )
-    // report error
-
-// Wait for up to 20 events (assuming we have added maybe 200 sockets before that it may happen)
-struct epoll_event pevents[ 20 ];
-
-// Wait for 10 seconds, and retrieve less than 20 epoll_event and store them into epoll_event array
-int ready = epoll_wait( pollingfd, pevents, 20, 10000 );
-// Check if epoll actually succeed
-if ( ret == -1 )
-    // report error and abort
-else if ( ret == 0 )
-    // timeout; no event detected
-else
-{
-    // Check if any events detected
-    for ( int i = 0; i < ret; i++ )
-    {
-        if ( pevents[i].events & EPOLLIN )
-        {
-            // Get back our connection pointer
-            Connection * c = (Connection*) pevents[i].data.ptr;
-            c->handleReadEvent();
-         }
-    }
-}
-```
-
-
-## 工作模式
-
-epoll 的描述符事件有两种触发模式：LT（level trigger）和 ET（edge trigger）。
-
-### 1. LT 模式
-
-当 epoll_wait() 检测到描述符事件到达时，将此事件通知进程，进程可以不立即处理该事件，下次调用 epoll_wait() 会再次通知进程。是默认的一种模式，并且同时支持 Blocking 和 No-Blocking。
-
-### 2. ET 模式
-
-和 LT 模式不同的是，通知之后进程必须立即处理事件，下次再调用 epoll_wait() 时不会再得到事件到达的通知。
-
-很大程度上减少了 epoll 事件被重复触发的次数，因此效率要比 LT 模式高。只支持 No-Blocking，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。
-
-## 应用场景
-
-很容易产生一种错觉认为只要用 epoll 就可以了，select 和 poll 都已经过时了，其实它们都有各自的使用场景。
-
-### 1. select 应用场景
-
-select 的 timeout 参数精度为 1ns，而 poll 和 epoll 为 1ms，因此 select 更加适用于实时性要求比较高的场景，比如核反应堆的控制。
-
-select 可移植性更好，几乎被所有主流平台所支持。
-
-### 2. poll 应用场景
-
-poll 没有最大描述符数量的限制，如果平台支持并且对实时性要求不高，应该使用 poll 而不是 select。
-
-### 3. epoll 应用场景
-
-只需要运行在 Linux 平台上，有大量的描述符需要同时轮询，并且这些连接最好是长连接。
-
-需要同时监控小于 1000 个描述符，就没有必要使用 epoll，因为这个应用场景下并不能体现 epoll 的优势。
-
-需要监控的描述符状态变化多，而且都是非常短暂的，也没有必要使用 epoll。因为 epoll 中的所有描述符都存储在内核中，造成每次需要对描述符的状态改变都需要通过 epoll_ctl() 进行系统调用，频繁系统调用降低效率。并且 epoll 的描述符存储在内核，不容易调试。
+- 第二种方法 EPOLLONESHOT方法，如果对描述符socket注册了EPOLLONESHOT事件，那么操作系统最多触发其上注册的一个可读、可写或者异常事件，且只触发一次。想要下次再触发则必须使用epoll_ctl重置该描述符上注册的事件，包括EPOLLONESHOT 事件。

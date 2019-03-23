@@ -761,3 +761,19 @@ REVOKE SELECT, INSERT ON mydatabase.* FROM myuser;
 ```sql
 SET PASSWROD FOR myuser = Password('new_password');
 ```
+
+## count
+
+count(*)肯定是查全部的记录条数了
+count(数字)，和count(*)效果一样，有几条记录就显示几
+count(属性名)则查处的是属性名下面的非null数据的个数
+count()则报错 错误码: 1064
+
+### SQL的四种连接（关联查询）
+
+- 内连接：指连接结果仅包含符合连接条件的行，参与连接的两个表都应该符合连接条件。（WHERE TESTA.A=TESTB.A）
+- 外连接：连接结果不仅包含符合连接条件的行同时也包含自身不符合条件的行。包括左外连接、右外连接和全外连接。
+- 左外连接：左边表数据行全部保留，右边表保留符合连接条件的行。（LEFT OUTER JOIN TESTB ON TESTA.A=TESTB.A）
+- 右外连接：右边表数据行全部保留，左边表保留符合连接条件的行。（RIGHT OUTER JOIN TESTB ON TESTA.A=TESTB.A）
+- 全外连接：左外连接 + 右外连接。全外连接是在等值连接的基础上将左表和右表的未匹配数据都加上。（FULL OUTER JOIN TESTB ON TESTA.A=TESTB.A）
+- union查询：把多个表的查询表结果拼成一个表结果. 所使用的方法就是union.
