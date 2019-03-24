@@ -1,64 +1,38 @@
+# Redis
 
-★★★ 集群与分布式。
+## redis特点
 
-★★★ 线程安全问题。
+- Redis 是一个基于内存的高性能key-value数据库。整个数据库统统加载在内存当中进行操作，定期通过异步操作把数据库数据flush到硬盘上进行保存。
+- 因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 10万次读写操作，是已知性能最快的Key-Value DB。
+- 支持保存多种数据结构
+- 单个value的最大限制是1GB，不像 memcached只能保存1MB的数据
 
-- 使用Redis的情况下如何高并发的写数据？
-- 19 Redis和MySQL最大的区别
-- 9 Redis内存数据库的内存指的是共享内存么
-- 10 Redis的持久化方式
-redis的数据备份和恢复有哪些？
-两种备份方式的优缺点是什么？
+应用：
 
-<!-- GFM-TOC -->
-* [一、概述](#一概述)
-* [二、数据类型](#二数据类型)
-    * [STRING](#string)
-    * [LIST](#list)
-    * [SET](#set)
-    * [HASH](#hash)
-    * [ZSET](#zset)
-* [三、数据结构](#三数据结构)★★☆ 字典和跳跃表原理分析。
-    * [字典](#字典)
-    * [跳跃表](#跳跃表)
-* [四、使用场景](#四使用场景)★★★ 使用场景。
-    * [计数器](#计数器)
-    * [缓存](#缓存)
-    * [查找表](#查找表)
-    * [消息队列](#消息队列)
-    * [会话缓存](#会话缓存)
-    * [分布式锁实现](#分布式锁实现)
-    * [其它](#其它)
-* [五、Redis 与 Memcached](#五redis-与-memcached)★★★ 与 Memchached 的比较。
-    * [数据类型](#数据类型)
-    * [数据持久化](#数据持久化)
-    * [分布式](#分布式)
-    * [内存管理机制](#内存管理机制)
-* [六、键的过期时间](#六键的过期时间)
-* [七、数据淘汰策略](#七数据淘汰策略)★☆☆ 数据淘汰机制。
-* [八、持久化](#八持久化)
-★★☆ RDB 和 AOF 持久化机制。
-    * [RDB 持久化](#rdb-持久化)
-    * [AOF 持久化](#aof-持久化)
-* [九、事务](#九事务)★★☆ 事务原理。
-* [十、事件](#十事件)★★☆ 事件驱动模型。
-    * [文件事件](#文件事件)
-    * [时间事件](#时间事件)
-    * [事件的调度与执行](#事件的调度与执行)
-* [十一、复制](#十一复制)★☆☆ 主从复制原理。
-    * [连接过程](#连接过程)
-    * [主从链](#主从链)
-* [十二、Sentinel](#十二sentinel)
-* [十三、分片](#十三分片)
-* [十四、一个简单的论坛系统分析](#十四一个简单的论坛系统分析)
-    * [文章信息](#文章信息)
-    * [点赞功能](#点赞功能)
-    * [对文章进行排序](#对文章进行排序)
-* [参考资料](#参考资料)
-<!-- GFM-TOC -->
+- 用他的List来做FIFO双向链表，实现一个轻量级的高性 能消息队列服务
+- 用他的Set可以做高性能的tag系统
 
+## redis优缺点
 
-## Redis数据类型
+优点：
+
+- 1 读写性能优异，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)
+- 2 支持数据持久化，支持AOF和RDB两种持久化方式
+- 3 支持主从复制，主机会自动将数据同步到从机，可以进行读写分离。
+- 4 数据结构丰富：除了支持string类型的value外还支持string、hash、set、sortedset、list等数据结构。
+- 5 支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行
+- 6 丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除
+
+缺点：
+
+- 1 Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。
+- 2 主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。
+- 3 redis的主从复制采用全量复制，复制过程中主机会fork出一个子进程对内存做一份快照，并将子进程的内存快照保存为文件发送给从机，这一过程需要确保主机有足够多的空余内存。若快照文件较大，对集群的服务能力会产生较大的影响，而且复制过程是在从机新加入集群或者从机和主机网络断开重连时都会进行，也就是网络波动都会造成主机和从机间的一次全量的数据复制，这对实际的系统运营造成了不小的麻烦。
+- 4 Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。为避免这一问题，运维人员在系统上线时必须确保有足够的空间，这对资源造成了很大的浪费。
+- Redis的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因此Redis适合的场景主要局限在较小数据量的高性能操作和运算上。
+- Redis是单进程单线程的，redis利用队列技术将并发访问变为串行访问，消除了传统数据库串行控制的开销
+
+## @Redis数据类型
 
 | 数据类型 | 可以存储的值 | 操作 |
 | :--: | :--: | :--: |
@@ -70,187 +44,17 @@ redis的数据备份和恢复有哪些？
 
 > [What Redis data structures look like](https://redislabs.com/ebook/part-1-getting-started/chapter-1-getting-to-know-redis/1-2-what-redis-data-structures-look-like/)
 
-## STRING
-
-<div align="center"> <img src="pics/6019b2db-bc3e-4408-b6d8-96025f4481d6.png" width="400"/> </div><br>
-
-```html
-> set hello world
-OK
-> get hello
-"world"
-> del hello
-(integer) 1
-> get hello
-(nil)
-```
-
-## LIST
-
-<div align="center"> <img src="pics/fb327611-7e2b-4f2f-9f5b-38592d408f07.png" width="400"/> </div><br>
-
-```html
-> rpush list-key item
-(integer) 1
-> rpush list-key item2
-(integer) 2
-> rpush list-key item
-(integer) 3
-
-> lrange list-key 0 -1
-1) "item"
-2) "item2"
-3) "item"
-
-> lindex list-key 1
-"item2"
-
-> lpop list-key
-"item"
-
-> lrange list-key 0 -1
-1) "item2"
-2) "item"
-```
-
-## SET
-
-<div align="center"> <img src="pics/cd5fbcff-3f35-43a6-8ffa-082a93ce0f0e.png" width="400"/> </div><br>
-
-```html
-> sadd set-key item
-(integer) 1
-> sadd set-key item2
-(integer) 1
-> sadd set-key item3
-(integer) 1
-> sadd set-key item
-(integer) 0
-
-> smembers set-key
-1) "item"
-2) "item2"
-3) "item3"
-
-> sismember set-key item4
-(integer) 0
-> sismember set-key item
-(integer) 1
-
-> srem set-key item2
-(integer) 1
-> srem set-key item2
-(integer) 0
-
-> smembers set-key
-1) "item"
-2) "item3"
-```
-
-## HASH
-
-<div align="center"> <img src="pics/7bd202a7-93d4-4f3a-a878-af68ae25539a.png" width="400"/> </div><br>
-
-```html
-> hset hash-key sub-key1 value1
-(integer) 1
-> hset hash-key sub-key2 value2
-(integer) 1
-> hset hash-key sub-key1 value1
-(integer) 0
-
-> hgetall hash-key
-1) "sub-key1"
-2) "value1"
-3) "sub-key2"
-4) "value2"
-
-> hdel hash-key sub-key2
-(integer) 1
-> hdel hash-key sub-key2
-(integer) 0
-
-> hget hash-key sub-key1
-"value1"
-
-> hgetall hash-key
-1) "sub-key1"
-2) "value1"
-```
-
-## ZSET
-
-<div align="center"> <img src="pics/1202b2d6-9469-4251-bd47-ca6034fb6116.png" width="400"/> </div><br>
-
-```html
-> zadd zset-key 728 member1
-(integer) 1
-> zadd zset-key 982 member0
-(integer) 1
-> zadd zset-key 982 member0
-(integer) 0
-
-> zrange zset-key 0 -1 withscores
-1) "member1"
-2) "728"
-3) "member0"
-4) "982"
-
-> zrangebyscore zset-key 0 800 withscores
-1) "member1"
-2) "728"
-
-> zrem zset-key member1
-(integer) 1
-> zrem zset-key member1
-(integer) 0
-
-> zrange zset-key 0 -1 withscores
-1) "member0"
-2) "982"
-```
-
-# 三、数据结构
+- string（字符串）：string 类型是 Redis 最基本的数据类型，string 类型的值最大能存储 512MB。
+- hash（哈希）：Redis hash 是一个键值(key=>value)对集合。并且可以像数据库中update一个属性一样只修改某一项属性值，特别适合用于存储、读取、修改用户属性。
+- list（列表）：列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）。
+- set（集合）：Set是string类型的无序集合。集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。
+- zset(sorted set：有序集合)。 zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
 
 ## 字典
 
 dictht 是一个散列表结构，使用拉链法保存哈希冲突。
 
-```c
-/* This is our hash table structure. Every dictionary has two of this as we
- * implement incremental rehashing, for the old to the new table. */
-typedef struct dictht {
-    dictEntry **table;
-    unsigned long size;
-    unsigned long sizemask;
-    unsigned long used;
-} dictht;
-```
-
-```c
-typedef struct dictEntry {
-    void *key;
-    union {
-        void *val;
-        uint64_t u64;
-        int64_t s64;
-        double d;
-    } v;
-    struct dictEntry *next;
-} dictEntry;
-```
-
 Redis 的字典 dict 中包含两个哈希表 dictht，这是为了方便进行 rehash 操作。在扩容时，将其中一个 dictht 上的键值对 rehash 到另一个 dictht 上面，完成之后释放空间并交换两个 dictht 的角色。
-
-```c
-typedef struct dict {
-    dictType *type;
-    void *privdata;
-    dictht ht[2];
-    long rehashidx; /* rehashing not in progress if rehashidx == -1 */
-    unsigned long iterators; /* number of iterators currently running */
-} dict;
-```
 
 rehash 操作不是一次性完成，而是采用渐进方式，这是为了避免一次性执行过多的 rehash 操作给服务器带来过大的负担。
 
@@ -259,62 +63,6 @@ rehash 操作不是一次性完成，而是采用渐进方式，这是为了避�
 在 rehash 期间，每次对字典执行添加、删除、查找或者更新操作时，都会执行一次渐进式 rehash。
 
 采用渐进式 rehash 会导致字典中的数据分散在两个 dictht 上，因此对字典的查找操作也需要到对应的 dictht 去执行。
-
-```c
-/* Performs N steps of incremental rehashing. Returns 1 if there are still
- * keys to move from the old to the new hash table, otherwise 0 is returned.
- *
- * Note that a rehashing step consists in moving a bucket (that may have more
- * than one key as we use chaining) from the old to the new hash table, however
- * since part of the hash table may be composed of empty spaces, it is not
- * guaranteed that this function will rehash even a single bucket, since it
- * will visit at max N*10 empty buckets in total, otherwise the amount of
- * work it does would be unbound and the function may block for a long time. */
-int dictRehash(dict *d, int n) {
-    int empty_visits = n * 10; /* Max number of empty buckets to visit. */
-    if (!dictIsRehashing(d)) return 0;
-
-    while (n-- && d->ht[0].used != 0) {
-        dictEntry *de, *nextde;
-
-        /* Note that rehashidx can't overflow as we are sure there are more
-         * elements because ht[0].used != 0 */
-        assert(d->ht[0].size > (unsigned long) d->rehashidx);
-        while (d->ht[0].table[d->rehashidx] == NULL) {
-            d->rehashidx++;
-            if (--empty_visits == 0) return 1;
-        }
-        de = d->ht[0].table[d->rehashidx];
-        /* Move all the keys in this bucket from the old to the new hash HT */
-        while (de) {
-            uint64_t h;
-
-            nextde = de->next;
-            /* Get the index in the new hash table */
-            h = dictHashKey(d, de->key) & d->ht[1].sizemask;
-            de->next = d->ht[1].table[h];
-            d->ht[1].table[h] = de;
-            d->ht[0].used--;
-            d->ht[1].used++;
-            de = nextde;
-        }
-        d->ht[0].table[d->rehashidx] = NULL;
-        d->rehashidx++;
-    }
-
-    /* Check if we already rehashed the whole table... */
-    if (d->ht[0].used == 0) {
-        zfree(d->ht[0].table);
-        d->ht[0] = d->ht[1];
-        _dictReset(&d->ht[1]);
-        d->rehashidx = -1;
-        return 0;
-    }
-
-    /* More to rehash... */
-    return 1;
-}
-```
 
 ## 跳跃表
 
@@ -334,79 +82,83 @@ int dictRehash(dict *d, int n) {
 - 更容易实现；
 - 支持无锁操作。
 
-# 四、使用场景
+## @sorted set底层实现
 
-## 计数器
+- hash table 和 skip list(跳跃表)
+- hash table是具体使用redis中的dict来实现的，主要是为了保证查询效率为O(1) 
+- skip list(跳跃表)主要是保证元素有序并能够保证INSERT和REMOVE操作是O(logn)的复杂度。
+
+## Redis 最适合的使用场景
+
+### 排行榜/计数器
+
+Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。
 
 可以对 String 进行自增自减运算，从而实现计数器功能。
 
 Redis 这种内存型数据库的读写性能非常高，很适合存储频繁读写的计数量。
 
-## 缓存
+### 缓存
 
 将热点数据放到内存中，设置内存的最大使用量以及淘汰策略来保证缓存的命中率。
 
-## 查找表
+### 查找表
 
 例如 DNS 记录就很适合使用 Redis 进行存储。
 
 查找表和缓存类似，也是利用了 Redis 快速的查找特性。但是查找表的内容不能失效，而缓存的内容可以失效，因为缓存不作为可靠的数据来源。
 
-## 消息队列
+### 消息队列
 
 List 是一个双向链表，可以通过 lpop 和 lpush 写入和读取消息。
 
-不过最好使用 Kafka、RabbitMQ 等消息中间件。
+Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如Python）对 list 的 push/pop 操作。
 
-## 会话缓存
+### 会话缓存（Session Cache）
 
 可以使用 Redis 来统一存储多台应用服务器的会话信息。
 
 当应用服务器不再存储用户的会话信息，也就不再具有状态，一个用户可以请求任意一个应用服务器，从而更容易实现高可用性以及可伸缩性。
 
-## 分布式锁实现
+### 发布/订阅
 
-在分布式场景下，无法使用单机环境下的锁来对多个节点上的进程进行同步。
+最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统
 
-可以使用 Reids 自带的 SETNX 命令实现分布式锁，除此之外，还可以使用官方提供的 RedLock 分布式锁实现。
+### 全页缓存（FPC）
 
-## 其它
+除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。
+
+### 其它
 
 Set 可以实现交集、并集等操作，从而实现共同好友等功能。
 
 ZSet 可以实现有序性操作，从而实现排行榜等功能。
 
-# 五、Redis 与 Memcached
+## @Redis分布式锁实现
 
-两者都是非关系型内存键值数据库，主要有以下不同：
+在分布式场景下，无法使用单机环境下的锁来对多个节点上的进程进行同步。
 
-## 数据类型
+可以使用 Reids 自带的 SETNX 命令实现分布式锁，除此之外，还可以使用官方提供的 RedLock 分布式锁实现。
 
-Memcached 仅支持字符串类型，而 Redis 支持五种不同的数据类型，可以更灵活地解决问题。
+## @Memcache与Redis的区别
 
-## 数据持久化
+- 两者都是非关系型内存键值数据库，主要有以下不同：
+- 数据类型：Memcached 仅支持字符串类型，而 Redis 支持五种不同的数据类型
+- redis的速度比memcached快很多
+- 数据持久化：Redis 支持两种持久化策略：RDB 快照和 AOF 日志，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用。而 Memcached 不支持持久化。
+- 使用底层模型不同 它们之间底层实现方式 以及与客户端之间通信的应用协议不一样。
+- 分布式：Memcached 不支持分布式，只能通过在客户端使用一致性哈希来实现分布式存储，这种方式在存储和查询时都需要先在客户端计算一次数据所在的节点。Redis Cluster 实现了分布式的支持。
+- 内存管理机制
+  - 在 Redis 中，并不是所有数据都一直存储在内存中，可以将一些很久没用的 value 交换到磁盘，而 Memcached 的数据则会一直在内存中。
+  - Memcached 将内存分割成特定长度的块来存储数据，以完全解决内存碎片的问题。但是这种方式会使得内存的利用率不高，例如块的大小为 128 bytes，只存储 100 bytes 的数据，那么剩下的 28 bytes 就浪费掉了。
 
-Redis 支持两种持久化策略：RDB 快照和 AOF 日志，而 Memcached 不支持持久化。
-
-## 分布式
-
-Memcached 不支持分布式，只能通过在客户端使用一致性哈希来实现分布式存储，这种方式在存储和查询时都需要先在客户端计算一次数据所在的节点。
-
-Redis Cluster 实现了分布式的支持。
-
-## 内存管理机制
-
-- 在 Redis 中，并不是所有数据都一直存储在内存中，可以将一些很久没用的 value 交换到磁盘，而 Memcached 的数据则会一直在内存中。
-
-- Memcached 将内存分割成特定长度的块来存储数据，以完全解决内存碎片的问题。但是这种方式会使得内存的利用率不高，例如块的大小为 128 bytes，只存储 100 bytes 的数据，那么剩下的 28 bytes 就浪费掉了。
-
-# 六、键的过期时间
+## Redis键的过期时间
 
 Redis 可以为每个键设置过期时间，当键过期时，会自动删除该键。
 
 对于散列表这种容器，只能为整个键设置过期时间（整个散列表），而不能为键里面的单个元素设置过期时间。
 
-# 七、数据淘汰策略
+## Redis数据淘汰策略（保证数据都是热点数据）
 
 可以设置内存最大使用量，当内存使用量超出时，会施行数据淘汰策略。
 
@@ -425,13 +177,17 @@ Reids 具体有 6 种淘汰策略：
 
 使用 Redis 缓存数据时，为了提高缓存命中率，需要保证缓存数据都是热点数据。可以将内存最大使用量设置为热点数据占用的内存量，然后启用 allkeys-lru 淘汰策略，将最近最少使用的数据淘汰。
 
-Redis 4.0 引入了 volatile-lfu 和 allkeys-lfu 淘汰策略，LFU 策略通过统计访问频率，将访问频率最少的键值对淘汰。
+使用策略规则：
 
-# 八、持久化
+1、如果数据呈现幂律分布，也就是一部分数据访问频率高，一部分数据访问频率低，则使用allkeys-lru
+
+2、如果数据呈现平等分布，也就是所有的数据访问频率都相同，则使用allkeys-random
+
+## Redis持久化（数据备份）
 
 Redis 是内存型数据库，为了保证数据在断电后不会丢失，需要将内存中的数据持久化到硬盘上。
 
-## RDB 持久化
+### RDB 持久化 快照（snapshots）
 
 将某个时间点的所有数据都存放到硬盘上。
 
@@ -441,7 +197,7 @@ Redis 是内存型数据库，为了保证数据在断电后不会丢失，需�
 
 如果数据量很大，保存快照的时间会很长。
 
-## AOF 持久化
+### AOF 持久化
 
 将写命令添加到 AOF 文件（Append Only File）的末尾。
 
@@ -459,7 +215,7 @@ Redis 是内存型数据库，为了保证数据在断电后不会丢失，需�
 
 随着服务器写请求的增多，AOF 文件会越来越大。Redis 提供了一种将 AOF 重写的特性，能够去除 AOF 文件中的冗余写命令。
 
-# 九、事务
+## Redis事务
 
 一个事务包含了多个命令，服务器在执行事务期间，不会改去执行其它客户端的命令请求。
 
@@ -467,19 +223,17 @@ Redis 是内存型数据库，为了保证数据在断电后不会丢失，需�
 
 Redis 最简单的事务实现方式是使用 MULTI 和 EXEC 命令将事务操作包围起来。
 
-# 十、事件
+## Redis事件驱动模型
 
 Redis 服务器是一个事件驱动程序。
 
-## 文件事件
+### 文件事件
 
 服务器通过套接字与客户端或者其它服务器进行通信，文件事件就是对套接字操作的抽象。
 
 Redis 基于 Reactor 模式开发了自己的网络事件处理器，使用 I/O 多路复用程序来同时监听多个套接字，并将到达的事件传送给文件事件分派器，分派器会根据套接字产生的事件类型调用相应的事件处理器。
 
-<div align="center"> <img src="pics/9ea86eb5-000a-4281-b948-7b567bd6f1d8.png" width=""/> </div><br>
-
-## 时间事件
+### 时间事件
 
 服务器有一些操作需要在给定的时间点执行，时间事件是对这类定时操作的抽象。
 
@@ -490,30 +244,10 @@ Redis 基于 Reactor 模式开发了自己的网络事件处理器，使用 I/O 
 
 Redis 将所有时间事件都放在一个无序链表中，通过遍历整个链表查找出已到达的时间事件，并调用相应的事件处理器。
 
-## 事件的调度与执行
+### 事件的调度与执行
 
 服务器需要不断监听文件事件的套接字才能得到待处理的文件事件，但是不能一直监听，否则时间事件无法在规定的时间内执行，因此监听时间应该根据距离现在最近的时间事件来决定。
 
-事件调度与执行由 aeProcessEvents 函数负责，伪代码如下：
-
-```python
-def aeProcessEvents():
-    # 获取到达时间离当前时间最接近的时间事件
-    time_event = aeSearchNearestTimer()
-    # 计算最接近的时间事件距离到达还有多少毫秒
-    remaind_ms = time_event.when - unix_ts_now()
-    # 如果事件已到达，那么 remaind_ms 的值可能为负数，将它设为 0
-    if remaind_ms < 0:
-        remaind_ms = 0
-    # 根据 remaind_ms 的值，创建 timeval
-    timeval = create_timeval_with_ms(remaind_ms)
-    # 阻塞并等待文件事件产生，最大阻塞时间由传入的 timeval 决定
-    aeApiPoll(timeval)
-    # 处理所有已产生的文件事件
-    procesFileEvents()
-    # 处理所有已到达的时间事件
-    processTimeEvents()
-```
 
 将 aeProcessEvents 函数置于一个循环里面，加上初始化和清理函数，就构成了 Redis 服务器的主函数，伪代码如下：
 
@@ -530,15 +264,13 @@ def main():
 
 从事件处理的角度来看，服务器运行流程如下：
 
-<div align="center"> <img src="pics/c0a9fa91-da2e-4892-8c9f-80206a6f7047.png" width="350"/> </div><br>
-
-# 十一、复制
+## Redis主从复制
 
 通过使用 slaveof host port 命令来让一个服务器成为另一个服务器的从服务器。
 
 一个从服务器只能有一个主服务器，并且不支持主主复制。
 
-## 连接过程
+### 连接过程
 
 1. 主服务器创建快照文件，发送给从服务器，并在发送期间使用缓冲区记录执行的写命令。快照文件发送完毕之后，开始向从服务器发送存储在缓冲区中的写命令；
 
@@ -546,17 +278,11 @@ def main():
 
 3. 主服务器每执行一次写命令，就向从服务器发送相同的写命令。
 
-## 主从链
+### 主从链
 
 随着负载不断上升，主服务器可能无法很快地更新所有从服务器，或者重新连接和重新同步从服务器将导致系统超载。为了解决这个问题，可以创建一个中间层来分担主服务器的复制工作。中间层的服务器是最上层服务器的从服务器，又是最下层服务器的主服务器。
 
-<div align="center"> <img src="pics/395a9e83-b1a1-4a1d-b170-d081e7bb5bab.png" width="600"/> </div><br>
-
-# 十二、Sentinel
-
-Sentinel（哨兵）可以监听集群中的服务器，并在主服务器进入下线状态时，自动从从服务器中选举出新的主服务器。
-
-# 十三、分片
+## Redis分片
 
 分片是将数据划分为多个部分的方法，可以将数据存储到多台机器里面，这种方法在解决某些问题时可以获得线性级别的性能提升。
 
@@ -571,32 +297,45 @@ Sentinel（哨兵）可以监听集群中的服务器，并在主服务器进入
 - 代理分片：将客户端请求发送到代理上，由代理转发请求到正确的节点上。
 - 服务器分片：Redis Cluster。
 
-# 十四、一个简单的论坛系统分析
+## redis常见性能问题和解决方案：
 
-该论坛系统功能如下：
+1).Master写内存快照，save命令调度rdbSave函数，会阻塞主线程的工作，当快照比较大时对性能影响是非常大的，会间断性暂停服务，所以Master最好不要写内存快照。
 
-- 可以发布文章；
-- 可以对文章进行点赞；
-- 在首页可以按文章的发布时间或者文章的点赞数进行排序显示。
+2).Master AOF持久化，如果不重写AOF文件，这个持久化方式对性能的影响是最小的，但是AOF文件会不断增大，AOF文件过大会影响Master重启的恢复速度。Master最好不要做任何持久化工作，包括内存快照和AOF日志文件，特别是不要启用内存快照做持久化,如果数据比较关键，某个Slave开启AOF备份数据，策略为每秒同步一次。
 
-## 文章信息
+3).Master调用BGREWRITEAOF重写AOF文件，AOF在重写的时候会占大量的CPU和内存资源，导致服务load过高，出现短暂服务暂停现象。
 
-文章包括标题、作者、赞数等信息，在关系型数据库中很容易构建一张表来存储这些信息，在 Redis 中可以使用 HASH 来存储每种信息以及其对应的值的映射。
+4). Redis主从复制的性能问题，为了主从复制的速度和连接的稳定性，Slave和Master最好在同一个局域网内
 
-Redis 没有关系型数据库中的表这一概念来将同种类型的数据存放在一起，而是使用命名空间的方式来实现这一功能。键名的前面部分存储命名空间，后面部分的内容存储 ID，通常使用 : 来进行分隔。例如下面的 HASH 的键名为 article:92617，其中 article 为命名空间，ID 为 92617。
+## redis的并发竞争问题如何解决
 
-<div align="center"> <img src="pics/7c54de21-e2ff-402e-bc42-4037de1c1592.png" width="400"/> </div><br>
+Redis为单进程单线程模式，采用队列模式将并发访问变为串行访问。Redis本身没有锁的概念，Redis对于多个客户端连接并不存在竞争，但是在Jedis客户端对Redis进行并发访问时会发生连接超时、数据转换错误、阻塞、客户端关闭连接等问题，这些问题均是由于客户端连接混乱造成。对此有2种解决方法：
 
-## 点赞功能
+1.客户端角度，为保证每个客户端间正常有序与Redis进行通信，对连接进行池化，同时对客户端读写Redis操作采用内部锁synchronized。
 
-当有用户为一篇文章点赞时，除了要对该文章的 votes 字段进行加 1 操作，还必须记录该用户已经对该文章进行了点赞，防止用户点赞次数超过 1。可以建立文章的已投票用户集合来进行记录。
+2.服务器角度，利用setnx实现锁。
 
-为了节约内存，规定一篇文章发布满一周之后，就不能再对它进行投票，而文章的已投票集合也会被删除，可以为文章的已投票集合设置一个一周的过期时间就能实现这个规定。
+注：对于第一种，需要应用程序自己处理资源的同步，可以使用的方法比较通俗，可以使用synchronized也可以使用lock；第二种需要用到Redis的setnx命令，但是需要注意一些问题。
 
-<div align="center"> <img src="pics/485fdf34-ccf8-4185-97c6-17374ee719a0.png" width="400"/> </div><br>
+## 请用Redis和任意语言实现一段恶意登录保护的代码，限制1小时内每用户Id最多只能登录5次。具体登录函数或功能用空函数即可，不用详细写出。
 
-## 对文章进行排序
+用列表实现:列表中每个元素代表登陆时间,只要最后的第5次登陆时间和现在时间差不超过1小时就禁止登陆.用Python写的代码如下：
 
-为了按发布时间和点赞数进行排序，可以建立一个文章发布时间的有序集合和一个文章点赞数的有序集合。（下图中的 score 就是这里所说的点赞数；下面所示的有序集合分值并不直接是时间和点赞数，而是根据时间和点赞数间接计算出来的）
+```python
+import redis
+import sys
+import time
 
-<div align="center"> <img src="pics/f7d170a3-e446-4a64-ac2d-cb95028f81a8.png" width="800"/> </div><br>
+r = redis.StrictRedis(host='127.0.0.1',port=6379,db=0)
+try:
+    id = sys.argv[1]
+except:
+    print('input argument error')
+    sys.exit(0)
+if r.llen(id)>=5 and time.time() - float(r.lindex(id,4))<=3600:
+    print("you are forbidden logining")
+else:
+    print("you are allow logining")
+    r.lpush(id,time.time())
+    #login_func()
+```
