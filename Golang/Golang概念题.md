@@ -43,6 +43,14 @@ https://www.nowcoder.com/discuss/96475
 - [Go并发调度器解析之实现一个协程池](https://juejin.im/entry/5b1e31f0e51d45067c6305a3)
 - [Goroutine并发调度模型深度解析之手撸一个协程池](http://blog.taohuawu.club/article/42)
 
+---
+
+golang 的协程 说一下你的理解
+golang当中的协程是占用一个cpu还是会被调度到不同的cpu？
+- 10，golang怎么进行垃圾回收的？什么对象会进老年代？垃圾回收算法有哪些？为什么新生代使用复制算法？
+
+---
+
 ## Go概念
 
 - 是Google开发的一种静态强类型、编译型、并发型，并具有垃圾回收功能的编程语言
