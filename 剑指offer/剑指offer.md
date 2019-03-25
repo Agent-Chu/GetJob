@@ -60,7 +60,7 @@ int main(){
 
 注意代码健壮性，检查传入数组是否为空，检查length是否小于等于0，检查每个数是够在0-n-1之间
 
-- [3.数组中的重复数字题目一代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/3.数组中的重复数字题目一.cpp)
+- [3.数组中的重复数字题目一代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/3.数组中的重复数字题目一.cpp)
 
 **题目二：不修改数组找出重复数字**
 数组长度为n+1，所有数字都在1-n的范围，所以至少有一个数字是重复的。找出任意一个数字，但是不能修改数组。
@@ -69,7 +69,7 @@ int main(){
 
 思路2：对范围进行二分，因为数组长度为n+1，所有数字都在1-n的范围，所以至少有一个数字是重复的。尝试缩小范围，确定最终结果
 
-- [3.数组中的重复数字题目二代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/3.数组中的重复数字题目二.cpp)
+- [3.数组中的重复数字题目二代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/3.数组中的重复数字题目二.cpp)
 
 ## 4 二维数组中的查找
 
@@ -80,7 +80,7 @@ int main(){
 
 思路2:从左下开始，小->右，大->上
 
-- [4.二维数组中的查找代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/4.二维数组中的查找.cpp)
+- [4.二维数组中的查找代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/4.二维数组中的查找.cpp)
 
 ## 5 替换空格
 
@@ -105,7 +105,7 @@ char* str4 = "helloworld";
 
 首先遍历，确定有几个空格，然后设置两个指针，间隔为需要新增的长度，默认输入字符串后面有空余空间。
 
-- [5.替换空格代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/5.替换空格.cpp)
+- [5.替换空格代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/5.替换空格.cpp)
 
 ## 6 从尾到头打印链表
 
@@ -131,7 +131,7 @@ name.pop();
 思路1：栈
 思路2：由于递归也是栈，用递归
 
-- [6.从尾到头打印链表代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/6.从尾到头打印链表.cpp)
+- [6.从尾到头打印链表代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/6.从尾到头打印链表.cpp)
 
 ## 7 重建二叉树
 
@@ -153,7 +153,7 @@ name.pop();
 **题目：**
 输入前序遍历和中序遍历的结果，重建二叉树，例：{1,2,4,7,3,5,6,8}和{4,7,2,1,5,3,8,6}
 
-- [7.重建二叉树](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/7.重建二叉树.cpp)
+- [7.重建二叉树](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/7.重建二叉树.cpp)
 
 ## 8 二叉树的下一个结点
 
@@ -167,7 +167,7 @@ name.pop();
 - 如果该结点既没有右子树，并且这个结点是右孩子，则需要沿着父节点的指针一直向上遍历，直到找到一个结点，这个结点是左孩子，则这个结点的父节点是我们需要的，也就是该结点在中序中的下一个结点
 - 后两种情况可以合并成一种，第二种不需要向上遍历而已
 
-- [8.二叉树的下一个结点](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offercode/8.二叉树的下一个结点.cpp)
+- [8.二叉树的下一个结点](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/8.二叉树的下一个结点.cpp)
 
 ## 9 用两个栈实现队列
 
