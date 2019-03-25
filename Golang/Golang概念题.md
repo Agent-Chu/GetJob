@@ -33,6 +33,7 @@
 - [cap和len](#cap和len)
 - [golang垃圾回收](#golang垃圾回收)
 - [interface](#interface)
+- [断言判断interface类型](#断言判断interface类型)
 - [生产者消费者](#生产者消费者)
 - [给以后的同学攒点golang的面经](https://www.nowcoder.com/discuss/145338)
 https://www.nowcoder.com/discuss/96475
@@ -46,6 +47,9 @@ https://www.nowcoder.com/discuss/96475
 ---
 
 golang 的协程 说一下你的理解
+
+https://www.cnblogs.com/liang1101/p/7285955.html
+
 golang当中的协程是占用一个cpu还是会被调度到不同的cpu？
 - 10，golang怎么进行垃圾回收的？什么对象会进老年代？垃圾回收算法有哪些？为什么新生代使用复制算法？
 
@@ -772,6 +776,11 @@ func main() {
     PrintAll(vals)
 }
 ```
+
+## 断言判断interface类型
+
+https://www.cnblogs.com/xiaopipi/p/4889212.html
+https://www.jianshu.com/p/3ced36523c8c
 
 ## 生产者消费者
 
