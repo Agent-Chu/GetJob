@@ -36,7 +36,7 @@
 - [断言判断interface类型](#断言判断interface类型)
 - [生产者消费者](#生产者消费者)
 - [给以后的同学攒点golang的面经](https://www.nowcoder.com/discuss/145338)
-https://www.nowcoder.com/discuss/96475
+
 
 ---
 
