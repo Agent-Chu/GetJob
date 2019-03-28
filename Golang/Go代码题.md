@@ -1,0 +1,3 @@
+- [GO语言面试系列:（二）常规性Golang面试题解析](https://zhuanlan.zhihu.com/p/47616970)
+- [golang 面试题](https://zhuanlan.zhihu.com/p/26972862)
+- [golang面试笔试题(第二版)](https://zhuanlan.zhihu.com/p/35058068)
