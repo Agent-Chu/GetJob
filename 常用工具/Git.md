@@ -1,8 +1,6 @@
-## Git
+# Git
 
-- [Git](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/Git.md)
-
-[What is the command to write a commit message in Git?](#what-is-the-command-to-write-a-commit-message-in-git)
+[如何提交一个消息](#what-is-the-command-to-write-a-commit-message-in-git)
 
 [What is difference between Git vs SVN?](#what-is-difference-between-git-vs-svn)
 
@@ -74,32 +72,16 @@ git add -A
 
 before git commit -a if new files need to be committed for the first time.
 
-
-###### Source
-
-* https://www.edureka.co/blog/interview-questions/git-interview-questions/
-
-[[↑] Back to top](#Git)
 ### What is difference between Git vs SVN?
 
 The main point in Git vs SVN debate boils down to this: Git is a distributed version control system (DVCS), whereas SVN is a centralized version control system.
 
-###### Source
-
-* https://medium.com/@gauravtaywade/15-interview-questions-about-git-that-every-developer-should-know-bcaf30409647
-
-[[↑] Back to top](#Git)
 ### What is Git?
 
 Git is a Distributed Version Control system (DVCS). It can track changes to a file and allows you to revert back to any particular change.
 
 Its distributed architecture provides many advantages over other Version Control Systems (VCS) like SVN one major advantage is that it does not rely on a central server to store all the versions of a project’s files. 
 
-###### Source
-
-* https://www.edureka.co/blog/interview-questions/git-interview-questions/
-
-[[↑] Back to top](#Git)
 ### How to undo the most recent commits in Git?
 
 ```sh
@@ -110,11 +92,6 @@ $ git add ...
 $ git commit -c ORIG_HEAD                           # will open an editor, which initially contains the log message from the old commit and allows you to edit it
 ```
 
-###### Source
-
-* https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git
-
-[[↑] Back to top](#Git)
 ### What is Git fork? What is difference between fork, branch and clone?
 
 * A **fork** is a remote, server-side copy of a repository, distinct from the original. A fork isn't a Git concept really, it's more a political/social idea. 

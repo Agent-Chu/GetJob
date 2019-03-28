@@ -16,6 +16,7 @@
 - [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/数据库.md)
 - [Redis](https://github.com/ChuangLiu727/GetJob/blob/master/Redis/Redis.md)
 - [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/常用工具.md)
+- [系统设计](https://github.com/ChuangLiu727/GetJob/blob/master/系统设计/系统设计.md)
 
 ### 算法
 
@@ -34,7 +35,6 @@
 ### ToDo
 
 - [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
-- [系统设计](https://github.com/CyC2018/CS-Notes#bulb-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1)
 - [LeetCode 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/Leetcode%20%E9%A2%98%E8%A7%A3.md)
 
 ## 参考
