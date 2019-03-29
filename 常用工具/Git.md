@@ -1,86 +1,26 @@
 # Git
 
-[如何提交一个消息](#what-is-the-command-to-write-a-commit-message-in-git)
+Git版本控制。按项目怎么用答了一下，分支冲突解决。
+1、请你回答一下git中Merge和rebase区别
 
-[What is difference between Git vs SVN?](#what-is-difference-between-git-vs-svn)
+## 提交消息命令
 
-[What is Git?](#what-is-git)
-
-[How to undo the most recent commits in Git?](#how-to-undo-the-most-recent-commits-in-git)
-
-[What is Git fork? What is difference between fork, branch and clone?](#what-is-git-fork-what-is-difference-between-fork-branch-and-clone)
-
-[What is the difference between "git pull" and "git fetch"?](#what-is-the-difference-between-git-pull-and-git-fetch)
-
-[What's the difference between a "pull request" and a "branch"?](#whats-the-difference-between-a-pull-request-and-a-branch)
-
-[How does the Centralized Workflow work?](#how-does-the-centralized-workflow-work)
-
-[You need to update your local repos. What git commands will you use?](#you-need-to-update-your-local-repos-what-git-commands-will-you-use)
-
-[You need to rollback to a previous commit and don't care about recent changes. What commands should you use?](#you-need-to-rollback-to-a-previous-commit-and-dont-care-about-recent-changes-what-commands-should-you-use)
-
-[What is "git cherry-pick"?](#what-is-git-cherry-pick)
-
-[Tell me the difference between HEAD, working tree and index, in Git?](#tell-me-the-difference-between-head-working-tree-and-index-in-git)
-
-[When should I use "git stash"?](#when-should-i-use-git-stash)
-
-[How to revert previous commit in git?](#how-to-revert-previous-commit-in-git)
-
-[Explain the advantages of Forking Workflow](#explain-the-advantages-of-forking-workflow)
-
-[Could you explain the Gitflow workflow?](#could-you-explain-the-gitflow-workflow)
-
-[Write down a sequence of git commands for a "Rebase Workflow"](#write-down-a-sequence-of-git-commands-for-a-rebase-workflow)
-
-[What is the "HEAD" in Git?](#what-is-the-head-in-git)
-
-[How to remove a file from git without removing it from your file system?](#how-to-remove-a-file-from-git-without-removing-it-from-your-file-system)
-
-[What is difference between "git stash pop" and "git stash apply"?](#what-is-difference-between-git-stash-pop-and-git-stash-apply)
-
-[Can you explain what “git reset” does in plain english?](#can-you-explain-what-git-reset-does-in-plain-english)
-
-[Write down a git command to check difference between two commits](#write-down-a-git-command-to-check-difference-between-two-commits)
-
-[How to amend older Git commit?](#how-to-amend-older-git-commit)
-
-[What git command do you need to use to know who changed certain lines in a specific file?](#what-git-command-do-you-need-to-use-to-know-who-changed-certain-lines-in-a-specific-file)
-
-[When do you use "git rebase" instead of "git merge"?](#when-do-you-use-git-rebase-instead-of-git-merge)
-
-[Do you know how to easily undo a git rebase? ](#do-you-know-how-to-easily-undo-a-git-rebase-)
-
-
-
-### What is the command to write a commit message in Git?
-
-Use:
 ```sh
 git commit -a
+git add -A  提交所有变化
+git add -u  提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
+git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
 ```
 
- -a on the command line instructs git to commit the new content of all tracked files that have been modified. You can use 
-```sh
-git add <file>
-```
-or 
-```sh
-git add -A
-```
+## Git 和 SVN的区别
 
-before git commit -a if new files need to be committed for the first time.
+Git是一个分布式版本控制系统（DVCS），而SVN是一个集中式版本控制系统。
 
-### What is difference between Git vs SVN?
+## What is Git
 
-The main point in Git vs SVN debate boils down to this: Git is a distributed version control system (DVCS), whereas SVN is a centralized version control system.
+Git是一个分布式版本控制系统（DVCS）。 它可以跟踪文件的更改，并允许您恢复到任何特定的更改。
 
-### What is Git?
-
-Git is a Distributed Version Control system (DVCS). It can track changes to a file and allows you to revert back to any particular change.
-
-Its distributed architecture provides many advantages over other Version Control Systems (VCS) like SVN one major advantage is that it does not rely on a central server to store all the versions of a project’s files. 
+与SVN等其他版本控制系统（VCS）相比，它的分布式架构具有许多优势，一个主要优点是它不依赖于中央服务器来存储项目文件的所有版本。
 
 ### How to undo the most recent commits in Git?
 
@@ -98,11 +38,10 @@ $ git commit -c ORIG_HEAD                           # will open an editor, which
 * A **clone** is not a fork; a clone is a local copy of some remote repository.  When you clone, you are actually copying the entire source repository, including all the history and branches.
 * A **branch** is a mechanism to handle the changes within a single repository in order to eventually merge them with the rest of code. A branch is something that is within a repository. Conceptually, it represents a thread of development.
 
-###### Source
+* A fork **是存储库的远程服务器端副本，与原始版本不同。 叉子确实不是Git概念，它更像是一种政治/社会观念。
+* A **克隆**不是叉子; 克隆是某个远程存储库的本地副本。 克隆时，实际上是在复制整个源存储库，包括所有历史记录和分支。
+* **分支**是一种机制，用于处理单个存储库中的更改，以便最终将它们与其余代码合并。 分支是存储库中的东西。 从概念上讲，它代表了一个发展的线索。
 
-* https://stackoverflow.com/questions/3329943/git-branch-fork-fetch-merge-rebase-and-clone-what-are-the-differences/
-
-[[↑] Back to top](#Git)
 ### What is the difference between "git pull" and "git fetch"?
 
 In the simplest terms, `git pull` does a `git fetch` followed by a `git merge`.
@@ -455,11 +394,7 @@ git rebase --continue
 ```
 If you want to add an extra delete remove the options from the commit command. If you want to adjust the message, omit just the `--no-edit` option.
 
-###### Source
 
-* https://stackoverflow.com/questions/8824971/how-to-amend-older-git-commit/18150592#18150592
-
-[[↑] Back to top](#Git)
 ### What git command do you need to use to know who changed certain lines in a specific file?
 
 Use `git blame` - a little feature in git that allows you to see who wrote what in the repository. If you want to know who changed certain lines, you can use the -L flag to figure out who changed those lines. You can use the command: 
@@ -467,11 +402,6 @@ Use `git blame` - a little feature in git that allows you to see who wrote what 
 git blame -L <line-number>,<ending-linenumber> <filename>
 ```
 
-###### Source
-
-* https://github.com/mikeizbicki/ucr-cs100/tree/2015winter/textbook/tools/git/advanced-git
-
-[[↑] Back to top](#Git)
 ### When do you use "git rebase" instead of "git merge"?
 
 Both of these commands are designed to integrate changes from one branch into another branch - they just do it in very different ways.
@@ -507,12 +437,6 @@ With rebase you say to use another branch as the new base for your work.
 3. **Does the branch itself represent useful information?** Some teams use the *branch-per-feature* model where each branch represents a feature (or bugfix, or sub-feature, etc.) In this model the branch helps identify sets of related commits. In case of *branch-per-developer* model the branch itself doesn't convey any additional information (the commit already has the author). There would be no harm in rebasing.
 4. **Might you want to revert the merge for any reason?** Reverting (as in undoing) a rebase is considerably difficult and/or impossible (if the rebase had conflicts) compared to reverting a merge. If you think there is a chance you will want to revert then use merge.
 
-
-###### Source
-
-* https://stackoverflow.com/questions/804115/when-do-you-use-git-rebase-instead-of-git-merge
-
-[[↑] Back to top](#Git)
 ### Do you know how to easily undo a git rebase? 
 
 The easiest way would be to find the head commit of the branch as it was immediately before the rebase started in the `reflog`
@@ -531,10 +455,3 @@ Also rebase saves your starting point to `ORIG_HEAD` so this is usually as simpl
 ```git
 git reset --hard ORIG_HEAD
 ```
-
-
-###### Source
-
-* https://stackoverflow.com/questions/134882/undoing-a-git-rebase
-
-[[↑] Back to top](#Git)
