@@ -122,7 +122,7 @@ func main() {
 2. Request/Response。程序生命期端（毫秒，秒级）
 3. 高IO，低计算（连接数据库，请求API）。
 
-### goroutine 和协程区别
+### goroutine和协程区别
 
 - 本质上，goroutine 就是协程。
 - 不同的是，Golang 在 runtime、系统调用等多方面对 goroutine 调度进行了封装和处理，当遇到长时间执行或者进行系统调用时，会主动把当前 goroutine 的CPU (P) 转让出去，让其他 goroutine 能被调度并执行，也就是 Golang 从语言层面支持了协程。Golang 的一大特色就是从语言层面原生支持协程，在函数或者方法前面加 go关键字就可创建一个协程。
