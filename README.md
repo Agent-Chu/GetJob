@@ -17,11 +17,8 @@
 - [Redis](https://github.com/ChuangLiu727/GetJob/blob/master/Redis/Redis.md)
 - [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/常用工具.md)
 - [系统设计](https://github.com/ChuangLiu727/GetJob/blob/master/系统设计/系统设计.md)
-
-### 算法
-
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
-- [剑指 Offer 题解](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/剑指offer.md)
+- [算法题](https://github.com/ChuangLiu727/GetJob/blob/master/算法题/算法题.md)
 
 ### 简历与面试事项
 

@@ -1,6 +1,6 @@
 # 剑指 Offer
 
-- [剑指 Offer 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E5%89%91%E6%8C%87%20offer%20%E9%A2%98%E8%A7%A3.md)
+- [剑指 Offer 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E5%89%91%E6%8C%87%20Offer%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md)
 - [1 赋值运算符函数](#1-赋值运算符函数)
 - [2 实现Singleton模式](#2-实现Singleton模式)
 - [3 数组中的重复数字](#3-数组中的重复数字)
@@ -56,11 +56,36 @@ int main(){
 
 思路2:扫描，构建hash表
 
+```c++
+bool duplicate1(int number[], int length, int *duplication){
+    //检查输入合法性
+    if (number == nullptr || length <= 0){
+        return false;
+    }
+    for (int i=0; i<length;){
+        if ( number[i]<0 || number[i]>length-1 ){
+            return false;
+        }
+    }
+    int *hash = new int[length+1];
+    memset(hash, -1, sizeof(int) * length);
+
+    for(int i=0; i<length; i++){
+        if (hash[number[i]]==-1){
+            hash[number[i]] = number[i];
+        }
+        else{
+            *duplication = number[i];
+            return true;
+        }
+    }
+    return false;
+}
+```
+
 思路3:由于数的范围是0-n-1，所以从头到尾扫描，当前数i和位置m不等，则i换到m位置，相等则继续，与hash方法相比，不用新开辟一个数组。
 
 注意代码健壮性，检查传入数组是否为空，检查length是否小于等于0，检查每个数是够在0-n-1之间
-
-- [3.数组中的重复数字题目一代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/3.数组中的重复数字题目一.cpp)
 
 **题目二：不修改数组找出重复数字**
 数组长度为n+1，所有数字都在1-n的范围，所以至少有一个数字是重复的。找出任意一个数字，但是不能修改数组。
@@ -69,7 +94,37 @@ int main(){
 
 思路2：对范围进行二分，因为数组长度为n+1，所有数字都在1-n的范围，所以至少有一个数字是重复的。尝试缩小范围，确定最终结果
 
-- [3.数组中的重复数字题目二代码](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/3.数组中的重复数字题目二.cpp)
+```c++
+//const int* number表示指向数组的指针，不会改变
+int duplicate(const int* number, int length){
+    //检查输入合法性
+    if (number == nullptr || length <= 0){
+        return -1;
+    }
+    //二分的标准写法
+    int start = 1;
+    int end = length - 1;
+    while(end >= start){
+        int middle = (end + start) / 2;
+        int count = countRange(number,length,start,middle);
+        if (end == start){
+            if (count>1){
+                return start;
+            }
+            else{
+                break;
+            }
+        }
+        if(count > (middle-start+1) ){//非左即右
+            end = middle;
+        }
+        else{
+            start = middle+1;
+        }
+    }
+    return -1;
+}
+```
 
 ## 4 二维数组中的查找
 
@@ -153,7 +208,37 @@ name.pop();
 **题目：**
 输入前序遍历和中序遍历的结果，重建二叉树，例：{1,2,4,7,3,5,6,8}和{4,7,2,1,5,3,8,6}
 
-- [7.重建二叉树](https://github.com/ChuangLiu727/GetJob/blob/master/剑指offer/code/7.重建二叉树.cpp)
+```c++
+class Solution {
+public:
+    TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
+        int inlen = vin.size();
+        if (inlen == 0){
+            return NULL;
+        }
+        vector<int> leftin,leftpre,rightin,rightpre;
+        TreeNode* head = new TreeNode(pre[0]);
+        int index = 0;
+        for(int i = 0; i<inlen;i++){
+            if(vin[i] == pre[0]){
+                index = i;
+                break;
+            }
+        }
+        for(int i=0;i<index;i++){
+            leftin.push_back(vin[i]);
+            leftpre.push_back(pre[i+1]);
+        }
+        for(int i=index+1;i<inlen;i++){
+            rightin.push_back(vin[i]);
+            rightpre.push_back(pre[i]);
+        }
+        head->left=reConstructBinaryTree(leftpre,leftin);
+        head->right=reConstructBinaryTree(rightpre,rightin);
+        return head;
+    }
+};
+```
 
 ## 8 二叉树的下一个结点
 
