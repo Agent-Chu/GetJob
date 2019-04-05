@@ -16,7 +16,7 @@
 - [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/数据库.md)
 - [Redis](https://github.com/ChuangLiu727/GetJob/blob/master/Redis/Redis.md)
 - [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/常用工具.md)
-- [系统设计](https://github.com/ChuangLiu727/GetJob/blob/master/系统设计/系统设计.md)
+- [分布式系统海量数据](https://github.com/ChuangLiu727/GetJob/blob/master/分布式系统海量数据/分布式系统海量数据.md)
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
 - [算法题](https://github.com/ChuangLiu727/GetJob/blob/master/算法题/算法题.md)
 
