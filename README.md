@@ -10,6 +10,7 @@
 
 - [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
 - [编程语言（Golang)](https://github.com/ChuangLiu727/GetJob/blob/master/Golang/Golang.md)
+- [编程语言（Java)](https://github.com/ChuangLiu727/GetJob/blob/master/Java/Java.md)
 - [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/操作系统.md)
 - [计算机网络](https://github.com/ChuangLiu727/GetJob/blob/master/计算机网络/计算机网络.md)
 - [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/数据库.md)
@@ -17,6 +18,7 @@
 - [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
 - [算法题](https://github.com/ChuangLiu727/GetJob/blob/master/算法题/算法题.md)
 - [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/常用工具.md)
+- [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
 
 ### 简历与面试事项
 
@@ -26,11 +28,6 @@
 ### 面试知识点
 
 - [面试知识点](https://github.com/ChuangLiu727/GetJob/blob/master/面试知识点/面试知识点.md)
-
-### ToDo
-
-- [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
-- [LeetCode 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/Leetcode%20%E9%A2%98%E8%A7%A3.md)
 
 ## 参考
 
