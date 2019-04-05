@@ -1,3 +1,5 @@
+https://zhuanlan.zhihu.com/p/60495899
+
 # Redis
 
 ## redis特点
