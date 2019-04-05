@@ -70,3 +70,63 @@ BIOS 是开机的时候计算机执行的第一个程序，这个程序知道可
 <div align="center"> <img src="pics/f900f266-a323-42b2-bc43-218fdb8811a8.jpg" width="600"/> </div><br>
 
 安装多重引导，最好先安装 Windows 再安装 Linux。因为安装 Windows 时会覆盖掉主要开机记录（MBR），而 Linux 可以选择将开机管理程序安装在主要开机记录（MBR）或者其它分区的启动扇区，并且可以设置开机管理程序的选单。
+
+
+## 文件系统组成
+
+最主要的几个组成部分如下：
+
+- inode：一个文件占用一个 inode，记录文件的属性，同时记录此文件的内容所在的 block 编号；
+- block：记录文件的内容，文件太大时，会占用多个 block。
+
+除此之外还包括：
+
+- superblock：记录文件系统的整体信息，包括 inode 和 block 的总量、使用量、剩余量，以及文件系统的格式与相关信息等；
+- block bitmap：记录 block 是否被使用的位域。
+
+磁盘碎片
+
+指一个文件内容所在的 block 过于分散。
+
+建立一个目录时，会分配一个 inode 与至少一个 block。block 记录的内容是目录下所有文件的 inode 编号以及文件名。
+
+## block
+
+在 Ext2 文件系统中所支持的 block 大小有 1K，2K 及 4K 三种，不同的大小限制了单个文件和文件系统的最大大小。
+
+| 大小 | 1KB | 2KB | 4KB |
+| :---: | :---: | :---: | :---: |
+| 最大单一文件 | 16GB | 256GB | 2TB |
+| 最大文件系统 | 2TB | 8TB | 16TB |
+
+一个 block 只能被一个文件所使用，未使用的部分直接浪费了。因此如果需要存储大量的小文件，那么最好选用比较小的 block。
+
+## inode
+
+inode 具体包含以下信息：
+
+- 权限 (read/write/excute)；
+- 拥有者与群组 (owner/group)；
+- 容量；
+- 建立或状态改变的时间 (ctime)；
+- 最近一次的读取时间 (atime)；
+- 最近修改的时间 (mtime)；
+- 定义文件特性的旗标 (flag)，如 SetUID...；
+- 该文件真正内容的指向 (pointer)。
+
+inode 具有以下特点：
+
+- 每个 inode 大小均固定为 128 bytes (新的 ext4 与 xfs 可设定到 256 bytes)；
+- 每个文件都仅会占用一个 inode。
+
+inode 中记录了文件内容所在的 block 编号，但是每个 block 非常小，一个大文件随便都需要几十万的 block。而一个 inode 大小有限，无法直接引用这么多 block 编号。因此引入了间接、双间接、三间接引用。间接引用是指，让 inode 记录的引用 block 块记录引用信息。
+
+## 目录配置
+
+为了使不同 Linux 发行版本的目录结构保持一致性，Filesystem Hierarchy Standard (FHS) 规定了 Linux 的目录结构。最基础的三个目录如下：
+
+- / (root, 根目录)
+- /usr (unix software resource)：所有系统默认软件都会安装到这个目录；
+- /var (variable)：存放系统或程序运行过程中的数据文件。
+
+<div align="center"> <img src="pics/linux-filesystem.png" width=""/> </div><br>
