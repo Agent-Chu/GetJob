@@ -57,6 +57,195 @@ linux操作：如何查找出现频率最高的100个ip地址
 
 10、请问如何将文本中的T全部替换成t,将其中的一行复制新的一行出来
 
+
+## 压缩指令
+
+### 1. gzip
+
+gzip 是 Linux 使用最广的压缩指令，可以解开 compress、zip 与 gzip 所压缩的文件。
+
+经过 gzip 压缩过，源文件就不存在了。
+
+有 9 个不同的压缩等级可以使用。
+
+可以使用 zcat、zmore、zless 来读取压缩文件的内容。
+
+```html
+$ gzip [-cdtv#] filename
+-c ：将压缩的数据输出到屏幕上
+-d ：解压缩
+-t ：检验压缩文件是否出错
+-v ：显示压缩比等信息
+-# ： # 为数字的意思，代表压缩等级，数字越大压缩比越高，默认为 6
+```
+
+### 2. bzip2
+
+提供比 gzip 更高的压缩比。
+
+查看命令：bzcat、bzmore、bzless、bzgrep。
+
+```html
+$ bzip2 [-cdkzv#] filename
+-k ：保留源文件
+```
+
+### 3. xz
+
+提供比 bzip2 更佳的压缩比。
+
+可以看到，gzip、bzip2、xz 的压缩比不断优化。不过要注意的是，压缩比越高，压缩的时间也越长。
+
+查看命令：xzcat、xzmore、xzless、xzgrep。
+
+```html
+$ xz [-dtlkc#] filename
+```
+
+## 打包
+
+压缩指令只能对一个文件进行压缩，而打包能够将多个文件打包成一个大文件。tar 不仅可以用于打包，也可以使用 gip、bzip2、xz 将打包文件进行压缩。
+
+```html
+$ tar [-z|-j|-J] [cv] [-f 新建的 tar 文件] filename...  ==打包压缩
+$ tar [-z|-j|-J] [tv] [-f 已有的 tar 文件]              ==查看
+$ tar [-z|-j|-J] [xv] [-f 已有的 tar 文件] [-C 目录]    ==解压缩
+-z ：使用 zip；
+-j ：使用 bzip2；
+-J ：使用 xz；
+-c ：新建打包文件；
+-t ：查看打包文件里面有哪些文件；
+-x ：解打包或解压缩的功能；
+-v ：在压缩/解压缩的过程中，显示正在处理的文件名；
+-f : filename：要处理的文件；
+-C 目录 ： 在特定目录解压缩。
+```
+
+| 使用方式 | 命令 |
+| :---: | --- |
+| 打包压缩 | tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称 |
+| 查 看 | tar -jtv -f filename.tar.bz2 |
+| 解压缩 | tar -jxv -f filename.tar.bz2 -C 要解压缩的目录 |
+
+## 查看进程
+
+### 1. ps
+
+查看某个时间点的进程信息
+
+示例一：查看自己的进程
+
+```sh
+# ps -l
+```
+
+示例二：查看系统所有进程
+
+```sh
+# ps aux
+```
+
+示例三：查看特定的进程
+
+```sh
+# ps aux | grep threadx
+```
+
+### 2. pstree
+
+查看进程树
+
+示例：查看所有进程树
+
+```sh
+# pstree -A
+```
+
+### 3. top
+
+实时显示进程信息
+
+示例：两秒钟刷新一次
+
+```sh
+# top -d 2
+```
+
+### 4. netstat
+
+查看占用端口的进程
+
+示例：查看特定端口的进程
+
+```sh
+# netstat -anp | grep port
+```
+
+## 进程状态
+
+| 状态 | 说明 |
+| :---: | --- |
+| R | running or runnable (on run queue) |
+| D | uninterruptible sleep (usually I/O) |
+| S | interruptible sleep (waiting for an event to complete) |
+| Z | zombie (terminated but not reaped by its parent) |
+| T | stopped (either by a job control signal or because it is being traced) |
+<br>
+<div align="center"> <img src="pics/76a49594323247f21c9b3a69945445ee.png" width=""/> </div><br>
+
+## SIGCHLD
+
+当一个子进程改变了它的状态时（停止运行，继续运行或者退出），有两件事会发生在父进程中：
+
+- 得到 SIGCHLD 信号；
+- waitpid() 或者 wait() 调用会返回。
+
+其中子进程发送的 SIGCHLD 信号包含了子进程的信息，比如进程 ID、进程状态、进程使用 CPU 的时间等。
+
+在子进程退出时，它的进程描述符不会立即释放，这是为了让父进程得到子进程信息，父进程通过 wait() 和 waitpid() 来获得一个已经退出的子进程的信息。
+
+## wait()
+
+```c
+pid_t wait(int *status)
+```
+
+父进程调用 wait() 会一直阻塞，直到收到一个子进程退出的 SIGCHLD 信号，之后 wait() 函数会销毁子进程并返回。
+
+如果成功，返回被收集的子进程的进程 ID；如果调用进程没有子进程，调用就会失败，此时返回 -1，同时 errno 被置为 ECHILD。
+
+参数 status 用来保存被收集的子进程退出时的一些状态，如果对这个子进程是如何死掉的毫不在意，只想把这个子进程消灭掉，可以设置这个参数为 NULL。
+
+## waitpid()
+
+```c
+pid_t waitpid(pid_t pid, int *status, int options)
+```
+
+作用和 wait() 完全相同，但是多了两个可由用户控制的参数 pid 和 options。
+
+pid 参数指示一个子进程的 ID，表示只关心这个子进程退出的 SIGCHLD 信号。如果 pid=-1 时，那么和 wait() 作用相同，都是关心所有子进程退出的 SIGCHLD 信号。
+
+options 参数主要有 WNOHANG 和 WUNTRACED 两个选项，WNOHANG 可以使 waitpid() 调用变成非阻塞的，也就是说它会立即返回，父进程可以继续执行其它任务。
+
+## 孤儿进程
+
+一个父进程退出，而它的一个或多个子进程还在运行，那么这些子进程将成为孤儿进程。
+
+孤儿进程将被 init 进程（进程号为 1）所收养，并由 init 进程对它们完成状态收集工作。
+
+由于孤儿进程会被 init 进程收养，所以孤儿进程不会对系统造成危害。
+
+## 僵尸进程
+
+一个子进程的进程描述符在子进程退出时不会释放，只有当父进程通过 wait() 或 waitpid() 获取了子进程信息后才会释放。如果子进程退出，而父进程并没有调用 wait() 或 waitpid()，那么子进程的进程描述符仍然保存在系统中，这种进程称之为僵尸进程。
+
+僵尸进程通过 ps 命令显示出来的状态为 Z（zombie）。
+
+系统所能使用的进程号是有限的，如果产生大量僵尸进程，将因为没有可用的进程号而导致系统不能产生新的进程。
+
+要消灭系统中大量的僵尸进程，只需要将其父进程杀死，此时僵尸进程就会变成孤儿进程，从而被 init 所收养，这样 init 就会释放所有的僵尸进程所占有的资源，从而结束僵尸进程。
+
 ## BIOS
 
 BIOS（Basic Input/Output System，基本输入输出系统），它是一个固件（嵌入在硬件中的软件），BIOS 程序存放在断电后内容不会丢失的只读内存中。
@@ -67,10 +256,7 @@ BIOS 是开机的时候计算机执行的第一个程序，这个程序知道可
 
 下图中，第一扇区的主要开机记录（MBR）中的开机管理程序提供了两个选单：M1、M2，M1 指向了 Windows 操作系统，而 M2 指向其它分区的启动扇区，里面包含了另外一个开机管理程序，提供了一个指向 Linux 的选单。
 
-<div align="center"> <img src="pics/f900f266-a323-42b2-bc43-218fdb8811a8.jpg" width="600"/> </div><br>
-
 安装多重引导，最好先安装 Windows 再安装 Linux。因为安装 Windows 时会覆盖掉主要开机记录（MBR），而 Linux 可以选择将开机管理程序安装在主要开机记录（MBR）或者其它分区的启动扇区，并且可以设置开机管理程序的选单。
-
 
 ## 文件系统组成
 
@@ -90,7 +276,7 @@ BIOS 是开机的时候计算机执行的第一个程序，这个程序知道可
 
 建立一个目录时，会分配一个 inode 与至少一个 block。block 记录的内容是目录下所有文件的 inode 编号以及文件名。
 
-## block
+## 文件系统block
 
 在 Ext2 文件系统中所支持的 block 大小有 1K，2K 及 4K 三种，不同的大小限制了单个文件和文件系统的最大大小。
 
@@ -101,7 +287,7 @@ BIOS 是开机的时候计算机执行的第一个程序，这个程序知道可
 
 一个 block 只能被一个文件所使用，未使用的部分直接浪费了。因此如果需要存储大量的小文件，那么最好选用比较小的 block。
 
-## inode
+## 文件系统inode
 
 inode 具体包含以下信息：
 
