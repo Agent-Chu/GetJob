@@ -8,22 +8,18 @@
 
 ### 基础知识
 
-- [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/C++.md)
-- [编程语言（Golang)](https://github.com/ChuangLiu727/GetJob/blob/master/Golang/Golang.md)
-- [编程语言（Java)](https://github.com/ChuangLiu727/GetJob/blob/master/Java/Java.md)
-- [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/操作系统.md)
-- [计算机网络](https://github.com/ChuangLiu727/GetJob/blob/master/计算机网络/计算机网络.md)
-- [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/数据库.md)
-- [分布式系统海量数据](https://github.com/ChuangLiu727/GetJob/blob/master/分布式系统海量数据/分布式系统海量数据.md)
-- [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/数据结构与算法.md)
-- [算法题](https://github.com/ChuangLiu727/GetJob/blob/master/算法题/算法题.md)
-- [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/常用工具.md)
-- [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/设计模式.md)
-
-### 简历与面试事项
-
-- [简历](https://github.com/ChuangLiu727/GetJob/blob/master/面试/简历.md)
-- [面试](https://github.com/ChuangLiu727/GetJob/blob/master/面试/面试.md)
+- [编程语言（C++)](https://github.com/ChuangLiu727/GetJob/blob/master/C++/Contents.md)
+- [编程语言（Golang)](https://github.com/ChuangLiu727/GetJob/blob/master/Golang/Contents.md)
+- [编程语言（Java)](https://github.com/ChuangLiu727/GetJob/blob/master/Java/Contents.md)
+- [操作系统](https://github.com/ChuangLiu727/GetJob/blob/master/操作系统/Contents.md)
+- [计算机网络](https://github.com/ChuangLiu727/GetJob/blob/master/计算机网络/Contents.md)
+- [数据库](https://github.com/ChuangLiu727/GetJob/blob/master/数据库/Contents.md)
+- [分布式系统海量数据](https://github.com/ChuangLiu727/GetJob/blob/master/分布式系统海量数据/Contents.md)
+- [数据结构与算法](https://github.com/ChuangLiu727/GetJob/blob/master/数据结构与算法/Contents.md)
+- [算法题](https://github.com/ChuangLiu727/GetJob/blob/master/算法题/Contents.md)
+- [常用工具](https://github.com/ChuangLiu727/GetJob/blob/master/常用工具/Contents.md)
+- [设计模式](https://github.com/ChuangLiu727/GetJob/blob/master/设计模式/Contents.md)
+- [简历与面试](https://github.com/ChuangLiu727/GetJob/blob/master/简历与面试.md)
 
 ### 面试知识点
 
