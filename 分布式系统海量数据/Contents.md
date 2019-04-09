@@ -1,3 +1,6 @@
+https://www.jdon.com/artichect/raft.html
+https://zhuanlan.zhihu.com/p/58485553
+
     说说你们公司线上生产环境用的是什么消息中间件？
 
 
