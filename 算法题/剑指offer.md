@@ -1,6 +1,5 @@
 # 剑指 Offer
 
-- [剑指 Offer 题解](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E5%89%91%E6%8C%87%20Offer%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md)
 - [1 赋值运算符函数](#1-赋值运算符函数)
 - [2 实现Singleton模式](#2-实现Singleton模式)
 - [3 数组中的重复数字](#3-数组中的重复数字)
@@ -17,6 +16,7 @@
 - [18 删除链表中重复的结点](#18-删除链表中重复的结点)
 - [19 正则表达式匹配](#19-正则表达式匹配)
 - [30 包含min函数的栈](#30-包含min函数的栈)
+- [40 最小的k个数](#40-最小的k个数)
 - [49 丑数](#49-丑数)
 - [51 数组中的逆序对](#51-数组中的逆序对)
 - [60 n个骰子点数和及各自出现的概率](#60-n个骰子点数和及各自出现的概率)
@@ -592,6 +592,83 @@ public:
     }
     int min() {
         return stkmin.top();
+    }
+};
+```
+
+## 40 最小的k个数
+
+- 思路一：利用快速排序中的获取分割（中轴）点位置函数getPartitiion。
+  - 基于数组的第k个数字来调整，使得比第k个数字小的所有数字都位于数组的左边，比第k个数字大的所有数字都位于数组的右边。调整之后，位于数组左边的k个数字就是最小的k个数字（这k个数字不一定是排序的）。O(N)
+
+```c++
+class Solution {
+public:
+    int partion(vector<int>& input, int beg, int end)
+    {
+        int key = input[beg];
+        while (beg < end)
+        {
+            while (beg < end && input[end] >= key)end--;
+            input[beg] = input[end];
+            while (beg < end && input[beg] <= key)beg++;
+            input[end] = input[beg];
+        }
+        input[beg] = key;
+        return beg;
+    }
+    vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
+        if (input.size() == 0 || input.size() < k || k <= 0)
+            return {};
+        int pos = partion(input, 0, input.size() - 1);
+        while (pos != k - 1)
+        {
+            if (pos > k - 1)
+                pos = partion(input, 0, pos - 1);
+            else
+                pos = partion(input, pos + 1, input.size() - 1);
+        }
+        vector<int> res(input.begin(), input.begin() + k);
+        return res;
+    }
+};
+```
+
+- 思路二：利用堆排序，O(N logK)，适合处理海量数据
+  - (1) 遍历输入数组，将前k个数插入到推中；（利用multiset来做为堆的实现）
+  - (2) 继续从输入数组中读入元素做为待插入整数，并将它与堆中最大值比较：如果待插入的值比当前已有的最大值小，则用这个数替换当前已有的最大值；如果待插入的值比当前已有的最大值还大，则抛弃这个数，继续读下一个数。
+  - 这样动态维护堆中这k个数，以保证它只储存输入数组中的前k个最小的数，最后输出堆即可。
+
+```c++
+class Solution {
+public:
+    vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
+        vector<int> res;
+        int len = input.size();
+        if(input.empty()||k<=0||len<k){
+            return res;
+        }
+
+        multiset<int, greater<int>> Num;
+        multiset<int, greater<int>>::iterator iterNum;
+
+        vector<int>::iterator iter = input.begin();
+        for(;iter!=input.end();iter++){
+            if(Num.size()<k){
+                Num.insert(*iter);
+            }
+            else{
+                iterNum = Num.begin();
+                if(*iter<*iterNum){
+                    Num.erase(iterNum);
+                    Num.insert(*iter);
+                }
+            }
+        }
+        for(iterNum = Num.end();iterNum!=Num.begin();iterNum--){
+            res.push_back(*iterNum);
+        }
+        return res;
     }
 };
 ```

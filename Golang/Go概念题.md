@@ -8,7 +8,8 @@
 - [基于消息传递的通信方式channel](#基于消息传递的通信方式channel)
 - [内置数据类型](#内置数据类型)
 - [defer机制](#defer机制)
-- [反射](#反射)
+- [reflect反射](#reflect反射)
+- [panic和recover](#panic和recover)
 - [Go是不是面向对象语言](#Go是不是面向对象语言)
 - [Go中的rune](#Go中的rune)
 - [Go中Map的实现](#Go中Map的实现)
@@ -243,7 +244,11 @@ num =  666
 main协程结束
 ```
 
-## 反射
+## reflect反射
+
+- 反射是指一类应用，它们能够自描述和自控制。
+- [反射](https://blog.csdn.net/u011957758/article/details/81193806)
+- [反射](https://www.jianshu.com/p/53adb1e92710)
 
 ```go
 import "reflect"
@@ -256,6 +261,60 @@ import "reflect"
 ```go
 str := "this is string"
 type := reflect.TypeOf(str)
+```
+
+## panic和recover
+
+- 关键字panic的作用是制造一次宕机，宕机就代表程序运行终止，但是已经“生效”的延迟函数仍会执行（即已经压入栈的defer延迟函数，panic之前的）。
+
+```go
+package main
+import "fmt"
+func main(){
+    defer func(){
+        fmt.Println("aaaaaa")
+    }()
+    fmt.Println("bbbbbb")
+    fmt.Println("cccccc")
+    panic("hahahaha")
+    fmt.Println("ddddd")
+    defer func(){
+        fmt.Println("eeeeeeee")
+    }()
+}
+```
+
+首先顺序执行，会先将第一个defer延迟函数“入栈”（这里称为入栈是为了便于理解），然后输出“bbbbbbb"，”cccccccc”，此时使用panic来触发一次宕机，panic接受一个任意类型的参数，会将该字符串输出，用作提示信息，之后的代码不再执行，所以后面的dddddd不会输出，而且第二个defer延迟函数也不会“入栈”，因为panic之后的代码不会继续执行，程序现在只会运行已经“入栈”的defer延迟函数，输出aaaaaa，在最后，会输出此次触发宕机的一些信息，为什么不执行panic后面的defer，其实这个很好理解，比如，有两次读文件操作，那么每一次读文件之后都是用defer关闭文件，如果第一次读文件就引发了panic异常，而第二次读文件操作还没开始，也就是说还没有打开文件，那么调用第二个defer来关闭第二个文件，有意义吗？应该是只关闭第一个打开的文件，对吧？也就是调用第一个defer。
+
+- recover只是用来接收panic触发的宕机，如果panic触发宕机，传给panic的任意类型的参数，recover会接收到这个参数，recover获取到值之后才知道发生了宕机；相反，如果程序中的recover没有获取到值，则代表没有发生宕机，那么recover的值就为nil，通过这个可以来进一步处理后事。
+- 前面已经提到panic的时候，已经说了，一旦发生宕机，其后的代码是不会执行的，但是会调用位于panic代码所在的哪一行之前的defer延迟函数，所以说这个特性就决定recover应该用在defer函数中，否则一旦发生宕机，除了defer延迟函数中的语句还能执行外，其他的语句都是不能执行的。
+- 如果触发宕机，panic的错误信息会显示，如果有recover时，则信息会被recover截获，于是错误信息就不会显示，转而进行下一步操作。
+
+```go
+package main
+import "fmt"
+func main() {
+    defer func() {
+        if info := recover(); info != nil {
+            fmt.Println("触发了宕机", info)
+        } else {
+            fmt.Println("程序正常退出")
+        }
+    }()
+    fmt.Println("bbbbbb")
+    fmt.Println("cccccc")
+    panic("fatal error")
+    fmt.Println("ddddd")
+    defer func() {
+        fmt.Println("eeeeeeee")
+    }()
+}
+```
+
+```go
+bbbbbb
+cccccc
+触发了宕机 fatal error
 ```
 
 ## Go是不是面向对象语言

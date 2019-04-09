@@ -1024,6 +1024,8 @@ daemon 2
 
 ## 2. 查看当前网络连接（链路层/网络层/传输层）：netstat
 
+netstat命令是一个监控TCP/IP网络的非常有用的工具，它可以显示路由表、实际的网络连接以及每一个网络接口设备的状态信息。
+
 查看占用端口的进程
 
 示例：查看特定端口的进程
@@ -1080,6 +1082,9 @@ daemon 2
     ```
 
 ## 4. 检查网络连通性（网络层ICMP协议）：ping
+
+（Packet Internet Groper）
+
     - 检查是否连通
     ```shell
     # 主要功能是检测网络连通性
@@ -1087,6 +1092,19 @@ daemon 2
 
     ping baidu.com
     ```
+
+- 属于一个通讯协议，是TCP/IP的一部分
+- 检查网络是否联通
+- 发送一个ICMP（Internet Control Messages Protocol）（因特网信报控制协议）
+
+步骤：
+
+- 使用 ipconfig/all 观察本地网络是否设置正确
+- ping 127.0.0.1 检查本地 TCP/IP 协议有没有设置好
+- ping 本机ip地址，检查本机ip
+- ping 本网网关地址
+- ping 本地DNS地址
+- ping 远程目标地址
 
 ## 5. 转发路径（网络层ICMP协议）：traceroute
     - 文件包途径的IP
@@ -1119,6 +1137,11 @@ daemon 2
 
 - 可以用tcpdump来抓包分析三次握手及数据传输过程，-i之后加上上一步得到的网卡地址，port可以指定监听的端口号。
 
+- 可以将网络中传送的数据包的头截获下来分析
+- 支持对协议、主机、网络或者端口进行过滤
+
+tcpdump [ -DenNqvX ] [ -c count ] [ -F file ] [ -i interface ] [ -r file ]
+        [ -s snaplen ] [ -w file ] [ expression ]
 
 ## 8. 域名解析工具（应用层DNS协议）：dig
     ```shell
@@ -1130,6 +1153,8 @@ daemon 2
     ```
 
 ## 9. 网络请求（应用层）：curl
+
+- [详见](http://www.cnblogs.com/gbyukg/p/3326825.html)
 
 # 管道指令
 
