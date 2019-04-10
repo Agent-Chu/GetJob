@@ -11,16 +11,22 @@
 - [9 用两个栈实现队列](#9-用两个栈实现队列)
 - [10 斐波那契数列](#10-斐波那契数列)
 - [11 旋转数组的最小数字](#11-旋转数组的最小数字)
+- [12 矩阵中的路径](#12-矩阵中的路径)
+- [13 机器人的运动范围](#13-机器人的运动范围)
 - [16 数值的整数次方](#16-数值的整数次方)
 - [17 打印从1到最大的n位数](#17-打印从1到最大的n位数)
 - [18 删除链表中重复的结点](#18-删除链表中重复的结点)
 - [19 正则表达式匹配](#19-正则表达式匹配)
+- [29 顺时针打印矩阵](#29-顺时针打印矩阵)
 - [30 包含min函数的栈](#30-包含min函数的栈)
 - [40 最小的k个数](#40-最小的k个数)
+- [41 数据流中的中位数](#41-数据流中的中位数)
 - [49 丑数](#49-丑数)
 - [51 数组中的逆序对](#51-数组中的逆序对)
 - [60 n个骰子点数和及各自出现的概率](#60-n个骰子点数和及各自出现的概率)
 - [65 不用加减乘除做加法](#65-不用加减乘除做加法)
+- [67 把字符串转换为整数](#67-把字符串转换为整数)
+- [68 树中两个节点的最低公共祖先](#68-树中两个节点的最低公共祖先)
 
 ## 1 赋值运算符函数
 
@@ -386,6 +392,113 @@ public:
 };
 ```
 
+## 12 矩阵中的路径
+
+- 题目描述 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。 例如 a b c e s f c s a d e e 这样的3 X 4 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
+
+- 分析：回溯算法
+  - 首先，在矩阵中任选一个格子作为路径的起点。如果路径上的第i个字符不是ch，那么这个格子不可能处在路径上的第i个位置。如果路径上的第i个字符正好是ch，那么往相邻的格子寻找路径上的第i+1个字符。除在矩阵边界上的格子之外，其他格子都有4个相邻的格子。
+重复这个过程直到路径上的所有字符都在矩阵中找到相应的位置。
+  - 由于回朔法的递归特性，路径可以被开成一个栈。当在矩阵中定位了路径中前n个字符的位置之后，在与第n个字符对应的格子的周围都没有找到第n+1个字符，这个时候只要在路径上回到第n-1个字符，重新定位第n个字符。
+  - 由于路径不能重复进入矩阵的格子，还需要定义和字符矩阵大小一样的布尔值矩阵，用来标识路径是否已经进入每个格子。 当矩阵中坐标为（row,col）的格子和路径字符串中相应的字符一样时，从4个相邻的格子(row,col-1),(row-1,col),(row,col+1)以及(row+1,col)中去定位路径字符串中下一个字符
+  - 如果4个相邻的格子都没有匹配字符串中下一个的字符，表明当前路径字符串中字符在矩阵中的定位不正确，我们需要回到前一个，然后重新定位。
+  - 一直重复这个过程，直到路径字符串上所有字符都在矩阵中找到合适的位置
+
+```c++
+class Solution {
+public:
+    bool hasPath(char* matrix, int rows, int cols, char* str)
+    {
+        if(str==NULL||rows<=0||cols<=0)
+           return false;
+        bool *isOk=new bool[rows*cols]();
+        for(int i=0;i<rows;i++)//用矩阵种所有点当起点
+        {
+             for(int j=0;j<cols;j++)
+                 if(isHsaPath(matrix,rows,cols,str,isOk,i,j))
+                     return true;
+        }
+        return false;
+    }
+    bool isHsaPath(char *matrix,int rows,int cols,char *str,bool *isOk,int curx,int cury)
+    {
+        if(*str=='\0')//找到这个路径
+           return true;
+        //防止越界，越界则移到另一端
+        if(cury==cols){
+             curx++;
+             cury=0;
+        }
+        if(cury==-1){
+             curx--;
+             cury=cols-1;
+        }
+        //但是去掉后也ac
+        if(curx<0||curx>=rows)//越界
+             return false;
+        if(isOk[curx*cols+cury])//已经走过
+            return false;
+        if(*str!=matrix[curx*cols+cury])//路径不对
+           return false;
+        isOk[curx*cols+cury]=true;//已经进入这个格子
+        //路径的下一个，矩阵中向四个方向各走一步
+        bool sign=isHsaPath(matrix,rows,cols,str+1,isOk,curx-1,cury)
+                ||isHsaPath(matrix,rows,cols,str+1,isOk,curx+1,cury)
+                ||isHsaPath(matrix,rows,cols,str+1,isOk,curx,cury-1)
+                ||isHsaPath(matrix,rows,cols,str+1,isOk,curx,cury+1);
+        isOk[curx*cols+cury]=false;//回到前一个
+        return sign;
+    }
+};
+```
+
+## 13 机器人的运动范围
+
+- 题目描述：地上有一个 m 行和 n 列的方格。一个机器人从坐标 (0, 0) 的格子开始移动，每一次只能向左右上下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于 k 的格子。例如，当 k 为 18 时，机器人能够进入方格 (35,37)，因为 3+5+3+7=18。但是，它不能进入方格 (35,38)，因为 3+5+3+8=19。请问该机器人能够达到多少个格子？
+
+- 这是一个可达性问题，使用dfs方法，走到的每一格标记为走过，走到无路可走时就是最终的结果。每次都有四个方向可以选择，所以写四个递归即可。
+- 核心思路：
+  - 1.从(0,0)开始走，每成功走一步标记当前位置为true,然后从当前位置往四个方向探索，返回1 + 4 个方向的探索值之和。
+  - 2.探索时，判断当前节点是否可达的标准为：
+  - 1）当前节点在矩阵内；
+  - 2）当前节点未被访问过；
+  - 3）当前节点满足limit限制。
+
+```c++
+class Solution {
+public:
+    int movingCount(int threshold, int rows, int cols)
+    {
+        int* flag=new int[rows*cols];//辅助数组
+        for(int i=0;i<rows*cols;i++)//初始化辅助数组
+            flag[i]=0;
+        return helper(0, 0, rows, cols, flag, threshold);
+    }
+    int helper(int i, int j, int rows, int cols, int* flag, int threshold) {
+        if (i < 0 || i >= rows || j < 0 || j >= cols)//出界
+            return 0;
+        //不能进入行坐标和列坐标的数位之和大于threshold的格子
+        if(numSum(i) + numSum(j)  > threshold)
+            return 0;
+        if(*(flag + i*cols + j) == 1)//已经走过
+            return 0;
+        *(flag + i*cols + j) = 1;//走过
+        return helper(i - 1, j, rows, cols, flag, threshold)
+            + helper(i + 1, j, rows, cols, flag, threshold)
+            + helper(i, j - 1, rows, cols, flag, threshold)
+            + helper(i, j + 1, rows, cols, flag, threshold)
+            + 1;//格子数+1
+    }
+    int numSum(int i) {
+        int sum = 0;
+        do{
+            sum += i%10;
+        }while((i = i/10) > 0);
+        return sum;
+    }
+};
+```
+
 ## 16 数值的整数次方
 
 - 实现函数 double Power(double base, int exponent) 求base的ex次方，不能用库函数，不用考虑大数问题
@@ -566,6 +679,55 @@ public:
 };
 ```
 
+## 29 顺时针打印矩阵
+
+- 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+
+- 四个循环中的分界点设置。
+- 一圈一圈打印，边界条件是`up <= down && left <= right`
+
+```c++
+class Solution {
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+        int hight = matrix.size();
+        int length = matrix[0].size();
+        vector<int> res;
+        if(hight == 0||length == 0){
+            return res;
+        }
+        int up = 0;
+        int down = hight-1;
+        int left = 0;
+        int right = length-1;
+        int i;
+        while(up <= down && left <= right){
+            for(i=left;i<=right;i++){
+                res.push_back(matrix[up][i]);
+            }
+            for(i=up+1;i<=down;i++){
+                res.push_back(matrix[i][right]);
+            }
+            if(up!=down){
+                for(i=right-1;i>=left;i--){
+                    res.push_back(matrix[down][i]);
+                }
+            }
+            if(left!=right){
+                for(i=down-1;i>up;i--){
+                    res.push_back(matrix[i][left]);
+                }
+            }
+            left++;
+            right--;
+            up++;
+            down--;
+        }
+        return res;
+    }
+};
+```
+
 ## 30 包含min函数的栈
 
 ```c++
@@ -673,6 +835,44 @@ public:
 };
 ```
 
+## 41 数据流中的中位数
+
+```c++
+class Solution {
+public:
+    priority_queue<int, vector<int>, less<int> > right;//右边是最小堆
+    priority_queue<int, vector<int>, greater<int> > left;//左边是最大堆
+    void Insert(int num)
+    {
+        //先插右边，再去调整
+        if(right.empty() || num <= right.top())
+            right.push(num);
+        else
+            left.push(num);
+        //插入完成后总数为偶数时，始终保持右边和左边个数相等
+        if(right.size() == left.size() + 2){
+            left.push(right.top());
+            right.pop();
+        }
+        //插入完成后总数为奇数时，始终保持右边比左边个数多1
+        if(right.size() + 1 == left.size()){
+            right.push(left.top());
+            left.pop();
+        }
+    }
+
+    double GetMedian()
+    {
+        //偶数情况
+        if(right.size() == left.size())
+            return (right.top() + left.top()) / 2.0;
+        //奇数情况
+        return right.top();
+    }
+
+};
+```
+
 ## 49 丑数
 
 - 思路：按顺序把每个丑数放在数组中，求下一个丑数
@@ -703,6 +903,41 @@ public:
 ## 51 数组中的逆序对
 
 https://www.cnblogs.com/buxizhizhou/p/4727810.html
+
+## 59 滑动窗口最大值
+
+题目：滑动窗口的最大值
+
+- 思路：滑动窗口应当是队列，但为了得到滑动窗口的最大值，队列序可以从两端删除元素，因此使用双端队列。
+- 原则：
+  - 对新来的元素k，将其与双端队列中的元素相比较
+  - 1）前面比k小的，直接移出队列（因为不再可能成为后面滑动窗口的最大值了!）,
+  - 2）前面比k大的X，比较两者下标，判断X是否已不在窗口之内，不在了，直接移出队列
+  - 队列的第一个元素是滑动窗口中的最大值
+
+```c++
+class Solution {
+public:
+    vector<int> maxInWindows(const vector<int>& num, unsigned int size)
+    {
+        vector<int> res;
+        deque<int> s;//s.front()存储的是最大值的下标
+        for(int i=0;i<num.size();i++){
+            while(s.size()&&num[s.back()]<=num[i]){//从后面依次弹出队列中比当前num值小的元素，同时也能保证队列首元素为当前窗口最大值下标
+                s.pop_back();
+            }
+            while(s.size()&&i-s.front()+1>size){//移动窗口，把下标不在窗口范围的下标都从前面移除
+                s.pop_front();
+            }
+            s.push_back(i);//当前下标存入，当前下标可能成为以后的最大值
+            if(size&&i+1>=size){//当滑动窗口首地址i大于等于size时才开始写入窗口最大值
+                res.push_back(num[s.front()]);
+            }
+        }
+        return res;
+    }
+};
+```
 
 ## 60 n个骰子点数和及各自出现的概率
 
@@ -778,4 +1013,82 @@ f^g        ->   1 0 0 0 0        -----i        16
 
 (h&i) <<1  ->   0 0 0 0 0        -----h        0 -----退出循环
 h^i        ->   1 1 0 0 0        -----i        24
+```
+
+## 67 把字符串转换为整数
+
+题目描述 将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0
+
+```
+Iuput:
++2147483647
+1a33
+
+Output:
+2147483647
+0
+```
+
+解析：首先需要判断正负号，然后判断每一位是否是数字，然后判断是否溢出，判断溢出可以通过加完第n位的和与未加第n位的和进行比较。最后可以得出结果。所以需要3-4步判断。
+
+```c++
+class Solution {
+public:
+    int StrToInt(string str) {
+        int n = str.size();
+        int s = 1;
+        long long res = 0;
+        if(!n)
+            return 0;
+        if(str[0] == '-')
+            s = -1;
+        int i;
+        if(str[0] ==  '-' || str[0] == '+')
+            i=1;
+        else
+            i=0;
+        for(; i < n; ++i){
+            if(!('0' <= str[i] && str[i] <= '9'))
+                return 0;
+            res=res*10+str[i]-'0';
+        }
+        return res * s;
+    }
+};
+```
+
+## 68 树中两个节点的最低公共祖先
+
+### 二叉查找树
+
+[Leetcode : 235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
+
+二叉查找树中，两个节点 p, q 的公共祖先 root 满足 root.val >= p.val && root.val <= q.val。
+
+```java
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null)
+        return root;
+    if (root.val > p.val && root.val > q.val)
+        return lowestCommonAncestor(root.left, p, q);
+    if (root.val < p.val && root.val < q.val)
+        return lowestCommonAncestor(root.right, p, q);
+    return root;
+}
+```
+
+### 普通二叉树
+
+[Leetcode : 236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
+
+在左右子树中查找是否存在 p 或者 q，如果 p 和 q 分别在两个子树中，那么就说明根节点就是最低公共祖先。
+
+```java
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q)
+        return root;
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+    return left == null ? right : right == null ? left : root;
+}
 ```
