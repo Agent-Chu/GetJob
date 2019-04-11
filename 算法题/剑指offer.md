@@ -19,6 +19,9 @@
 - [19 正则表达式匹配](#19-正则表达式匹配)
 - [29 顺时针打印矩阵](#29-顺时针打印矩阵)
 - [30 包含min函数的栈](#30-包含min函数的栈)
+- [36 二叉搜索树与双向链表](#36-二叉搜索树与双向链表)
+- [37 序列化二叉树](#37-序列化二叉树)
+- [38 字符串的排列](#38-字符串的排列)
 - [40 最小的k个数](#40-最小的k个数)
 - [41 数据流中的中位数](#41-数据流中的中位数)
 - [49 丑数](#49-丑数)
@@ -549,7 +552,65 @@ public:
 
 ## 17 打印从1到最大的n位数
 
-输入数字n，按顺序打印出1到最大的n位十进制数
+- 输入数字n，按顺序打印出1到最大的n位十进制数
+
+- 需要考虑大数问题，这是题目设置的陷阱。可以把问题转换成数字排列问题，用递归让代码更简洁。我们把数字的每一位都从0到9排列一遍，得到全部的十进制数，打印时，前面的零不打印出来
+
+```c++
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+void PrintNum(char* number){
+    //此处的number为一个str类型的数组，每个数组元素是一个0-9之间数字的字符串形式
+    bool isbegin = true;
+    int len = strlen(number);
+    //printf("长度：%d",len);
+    for(int i=0;i<len;i++){
+        if(isbegin&&number[i]!='0'){//只输出非零项
+            isbegin = false;
+        }
+        if(!isbegin){
+            printf("%c",number[i]);
+        }
+    }
+    printf("\t");
+}
+
+void Print1Ton(char* number,int length,int index){
+    //第一次调用时，index==0，所以只有第一位是0
+    //直到9，调用PrintNum输出1-9
+    if(index == length - 1){//index表示变换位数
+        PrintNum(number);
+        return;
+    }
+    for(int i=0;i<10;i++){
+        number[index+1] = i+'0';//改变下一位
+        //改变下一位后，第一位是1
+        //第二位从0-9，输出第一位和第二位的组合，也就是全排列
+        Print1Ton(number,length,index+1);
+    }
+}
+
+int main(){
+    int n;
+    cin >> n;
+    if(n<=0){
+        return 1;
+    }
+    char* number = new char[n+1];
+    number[n] = '\0';
+    for(int i=0;i<10;i++){//依次取0-9的值
+        number[0] = i+'0';//第一位0
+        Print1Ton(number,n,0);
+    }
+    delete[] number;
+    return 0;
+}
+```
 
 ## 18 删除链表中重复的结点
 
@@ -758,6 +819,149 @@ public:
 };
 ```
 
+## 36 二叉搜索树与双向链表
+
+- 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
+- 二叉搜索树要转换成有序的双向链表，实际上就是使用中序遍历把节点连入链表中，并且题目要求在原来节点上进行操作，也就是使用左指针和右指针表示链表的前置节点和后置节点。
+- 使用栈实现中序遍历的非递归算法，便可以找出节点的先后关系，依次连接即可。
+
+- [牛客](https://www.nowcoder.com/questionTerminal/947f6eb80d944a84850b0538bf0ec3a5)
+
+## 37 序列化二叉树
+
+- 请实现两个函数，分别用来序列化和反序列化二叉树。
+- 比如 1 2 3 4 5，使用先序遍历 序列化结果是1,2,4,###3,#5,##，反序列化先让根节点指向第一位字符，然后左子树递归进行连接，右子树
+- 对于序列化：使用前序遍历，递归的将二叉树的值转化为字符，并且在每次二叉树的结点不为空时，在转化val所得的字符之后添加一个' ， '作为分割。对于空节点则以 '#' 代替。
+- 对于反序列化：按照前序顺序，递归的使用字符串中的字符创建一个二叉树(特别注意：在递归时，递归函数的参数一定要是char ** ，这样才能保证每次递归后指向字符串的指针会随着递归的进行而移动！！！)
+
+```c++
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    char* Serialize(TreeNode *root) {
+       if(root == NULL)
+           return NULL;
+        string str;
+        Serialize(root, str);
+        char *ret = new char[str.length() + 1];
+        int i;
+        for(i = 0; i < str.length(); i++){
+            ret[i] = str[i];
+        }
+        ret[i] = '\0';
+        return ret;
+    }
+    void Serialize(TreeNode *root, string& str){
+        if(root == NULL){
+            str += '#';
+            return ;
+        }
+        string r = to_string(root->val);
+        str += r;
+        str += ',';
+        Serialize(root->left, str);
+        Serialize(root->right, str);
+    }
+     
+    TreeNode* Deserialize(char *str) {
+        if(str == NULL)
+            return NULL;
+        TreeNode *ret = Deserialize(&str);
+ 
+        return ret;
+    }
+    TreeNode* Deserialize(char **str){//由于递归时，会不断的向后读取字符串
+        if(**str == '#'){  //所以一定要用**str,
+            ++(*str);         //以保证得到递归后指针str指向未被读取的字符
+            return NULL;
+        }
+        int num = 0;
+        while(**str != '\0' && **str != ','){
+            num = num*10 + ((**str) - '0');
+            ++(*str);
+        }
+        TreeNode *root = new TreeNode(num);
+        if(**str == '\0')
+            return root;
+        else
+            (*str)++;
+        root->left = Deserialize(str);
+        root->right = Deserialize(str);
+        return root;
+    }
+};
+```
+
+## 38 字符串的排列
+
+- [解题思路及思路图](http://www.cnblogs.com/cxjchen/p/3932949.html)
+
+- 输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。输入可能有重复
+
+- 对于无重复值的情况
+  - 固定第一个字符，递归取得首位后面的各种字符串组合；
+  - 再把第一个字符与后面每一个字符交换，并同样递归获得首位后面的字符串组合；
+  - 递归的出口，就是只剩一个字符的时候，递归的循环过程，就是从每个子串的第二个字符开始依次与第一个字符交换，然后继续处理子串。
+
+- 有重复值
+  - 由于全排列就是从第一个数字起，每个数分别与它后面的数字交换，我们先尝试加个这样的判断——如果一个数与后面的数字相同那么这两个数就不交换了。
+  - 例如abb，第一个数与后面两个数交换得bab，bba。然后abb中第二个数和第三个数相同，就不用交换了。
+  - 但是对bab，第二个数和第三个数不 同，则需要交换，得到bba。
+  - 由于这里的bba和开始第一个数与第三个数交换的结果相同了，因此这个方法不行。
+  - 换种思维，对abb，第一个数a与第二个数b交换得到bab，然后考虑第一个数与第三个数交换，此时由于第三个数等于第二个数，
+  - 所以第一个数就不再用与第三个数交换了。再考虑bab，它的第二个数与第三个数交换可以解决bba。此时全排列生成完毕！
+  - 去重的全排列就是从第一个数字起，每个数分别与它后面非重复出现的数字交换。
+
+```c++
+class Solution {
+public:
+    vector<string> Permutation(string str)
+    {
+        vector<string> result;
+        if(str.empty())
+            return result;
+        Permutation(str,result,0);//从第一个字符开始
+        //此时得到的result中排列并不是字典顺序，可以单独再排下序
+        sort(result.begin(),result.end());
+        return result;
+    }
+
+    void Permutation(string str,vector<string> &result,int begin){
+        // 递归结束条件：索引已经指向str最后一个元素时
+        if(begin == str.size()-1){
+            if(find(result.begin(),result.end(),str) == result.end()){
+                // 如果result中不存在str，才添加；避免aa和aa重复添加的情况
+                result.push_back(str);
+            }
+        }
+        else{
+            // 第一次循环i与begin相等，相当于第一个位置自身交换，关键在于之后的循环，
+            // 之后i != begin，则会交换两个不同位置上的字符，直到begin==str.size()-1，进行输出；
+            for(int i=begin;i<str.size();++i){
+                swap(str[i],str[begin]);
+                Permutation(str,result,begin+1);//范围不断缩小，直到最后一个的时候，输出
+                swap(str[i],str[begin]); // 复位，用以恢复之前字符串顺序，达到第一位依次跟其他位交换的目的
+            }
+        }
+    }
+
+    void swap(char &fir,char &sec){
+        char temp = fir;
+        fir = sec;
+        sec = temp;
+    }
+};
+```
+
 ## 40 最小的k个数
 
 - 思路一：利用快速排序中的获取分割（中轴）点位置函数getPartitiion。
@@ -903,6 +1107,8 @@ public:
 ## 51 数组中的逆序对
 
 https://www.cnblogs.com/buxizhizhou/p/4727810.html
+
+https://www.nowcoder.com/questionTerminal/96bd6684e04a44eb80e6a68efc0ec6c5
 
 ## 59 滑动窗口最大值
 
