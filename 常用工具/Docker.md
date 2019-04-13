@@ -1,5 +1,9 @@
 # Docker
 
+http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html
+
+https://mp.weixin.qq.com/s/DY3pLat1ehudP624Io73Hg
+
 # 一、解决的问题
 
 由于不同的机器有不同的操作系统，以及不同的库和组件，在将一个应用部署到多台机器上需要进行大量的环境配置操作。
