@@ -1,34 +1,31 @@
 # Docker
 
-http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html
-
-https://mp.weixin.qq.com/s/DY3pLat1ehudP624Io73Hg
-
 # 一、解决的问题
 
 由于不同的机器有不同的操作系统，以及不同的库和组件，在将一个应用部署到多台机器上需要进行大量的环境配置操作。
 
 Docker 主要解决环境配置问题，它是一种虚拟化技术，对进程进行隔离，被隔离的进程独立于宿主操作系统和其它隔离的进程。使用 Docker 可以不修改应用程序代码，不需要开发人员学习特定环境下的技术，就能够将现有的应用程序部署在其它机器上。
 
-<div align="center"> <img src="https://gitee.com/CyC2018/CS-Notes/raw/master/docs/pics/011f3ef6-d824-4d43-8b2c-36dab8eaaa72-1.png" width="400px"/> </div><br>
+## 与虚拟机的比较
 
-# 二、与虚拟机的比较
-
-虚拟机也是一种虚拟化技术，它与 Docker 最大的区别在于它是通过模拟硬件，并在硬件上安装操作系统来实现。
-
-<div align="center"> <img src="https://gitee.com/CyC2018/CS-Notes/raw/master/docs/pics/be608a77-7b7f-4f8e-87cc-f2237270bf69.png" width="500"/> </div><br>
-
-## 启动速度
-
-启动虚拟机需要先启动虚拟机的操作系统，再启动应用，这个过程非常慢；
-
-而启动 Docker 相当于启动宿主操作系统上的一个进程。
-
-## 占用资源
-
-虚拟机是一个完整的操作系统，需要占用大量的磁盘、内存和 CPU 资源，一台机器只能开启几十个的虚拟机。
-
-而 Docker 只是一个进程，只需要将应用以及相关的组件打包，在运行时占用很少的资源，一台机器可以开启成千上万个 Docker。
+- 启动速度
+  - 启动虚拟机需要先启动虚拟机的操作系统，再启动应用，这个过程非常慢；
+  - 而启动 Docker 相当于启动宿主操作系统上的一个进程。
+- 占用资源
+  - 虚拟机是一个完整的操作系统，需要占用大量的磁盘、内存和 CPU 资源，一台机器只能开启几十个的虚拟机。
+  - Docker 只是一个进程，只需要将应用以及相关的组件打包，在运行时占用很少的资源，一台机器可以开启成千上万个 Docker。
+- 交付/部署
+  - 开发、测试、生产环境一致
+  - 无成熟体系
+- 性能
+  - 近似物理机
+  - 性能损耗大
+- 体量
+  - 极小（MB）
+  - 较大（GB）
+- 迁移/扩展
+  - 跨平台，可复制
+  - 较为复杂
 
 # 三、优势
 
@@ -70,22 +67,52 @@ Docker 轻量级的特点使得它很适合用于部署、维护、组合微服�
 
 构建容器时，通过在镜像的基础上添加一个可写层（writable layer），用来保存着容器运行过程中的修改。
 
-<div align="center"> <img src="https://gitee.com/CyC2018/CS-Notes/raw/master/docs/pics/docker-filesystems-busyboxrw.png"/> </div><br>
+镜像、容器和仓库
 
-# 参考资料
+Docker 由镜像(Image)、容器(Container)、仓库(Repository) 三部分组成。
 
-- [DOCKER 101: INTRODUCTION TO DOCKER WEBINAR RECAP](https://blog.docker.com/2017/08/docker-101-introduction-docker-webinar-recap/)
-- [Docker 入门教程](http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html)
-- [Docker container vs Virtual machine](http://www.bogotobogo.com/DevOps/Docker/Docker_Container_vs_Virtual_Machine.php)
-- [How to Create Docker Container using Dockerfile](https://linoxide.com/linux-how-to/dockerfile-create-docker-container/)
-- [理解 Docker（2）：Docker 镜像](http://www.cnblogs.com/sammyliu/p/5877964.html)
-- [为什么要使用 Docker？](https://yeasy.gitbooks.io/docker_practice/introduction/why.html)
-- [What is Docker](https://www.docker.com/what-docker)
-- [持续集成是什么？](http://www.ruanyifeng.com/blog/2015/09/continuous-integration.html)
+Docker 的镜像可以简单的类比为电脑装系统用的系统盘，包括操作系统，以及必要的软件。例如，一个镜像可以包含一个完整的 centos 操作系统环境，并安装了 Nginx 和 Tomcat 服务器。注意的是，镜像是只读的。这一点也很好理解，就像我们刻录的系统盘其实也是可读的。我们可以使用 docker images 来查看本地镜像列表。
+
+Docker 的容器可以简单理解为提供了系统硬件环境，它是真正跑项目程序、消耗机器资源、提供服务的东西。例如，我们可以暂时把容器看作一个 Linux 的电脑，它可以直接运行。那么，容器是基于镜像启动的，并且每个容器都是相互隔离的。注意的是，容器在启动的时候基于镜像创建一层可写层作为最上层。我们可以使用 docker ps-a 查看本地运行过的容器。
+
+Docker 的仓库用于存放镜像。这一点，和 Git 非常类似。我们可以从中心仓库下载镜像，也可以从自建仓库下载。同时，我们可以把制作好的镜像 commit 到本地，然后 push 到远程仓库。仓库分为公开仓库和私有仓库，最大的公开仓库是官方仓库 Dock Hub，国内的公开仓库也有很多选择，例如阿里云等。
+
+## 使用过程（搭建Web服务器）
+
+我们作为实干派，那么先来搭建一个 Web 服务器吧。然后，笔者带你慢慢理解这个过程中，做了什么事情。首先，我们需要拉取 centos 镜像。
+
+    docker run -p 80 --name web -i -t centos /bin/bash
+
+紧接着，我们安装 nginx 服务器，执行以下命令：
+
+    rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+
+安装完 Nginx 源后，就可以正式安装 Nginx 了。
+
+    yum install -y nginx
+
+至此，我们再输入 whereis nginx 命令就可以看到安装的路径了。最后，我们还需要将 Nginx 跑起来。
+
+    nginx
+
+现在，我们执行 ctrl+P+Q 切换到后台。然后，通过 docker ps-a 来查看随机分配的端口。
+这里，笔者分配的端口是 32769 ，那么通过浏览器访问 http://127.0.0.1:32769 即可。
+
+现在，我们来理解下这个流程。首先，我们输入 docker run-p80--name web-i-t centos/bin/bash 命令会运行交互式容器，其中 -i 选项告诉 Docker 容器保持标准输入流对容器开放，即使容器没有终端连接，另一个 -t 选项告诉 Docker 为容器分配一个虚拟终端，以便于我们接下来安装 Nginx 服务器。（笔者备注：Docker 还支持输入 -d 选项告诉 Docker 在后台运行容器的守护进程）
+
+Docker 会为我们创建的每一个容器自动生成一个随机的名称。事实上，这种方式虽然便捷，但是可读性很差，并且对我们后期维护的理解成本会比较大。因此，我们通过 --name web 选项告诉 Docker 创建一个名称是 web 的容器。此外，我们通过 -p80 告诉 Docker 开放 80 端口，那么， Nginx 才可以对外通过访问和服务。但是，我们的宿主机器会自动做端口映射，比如上面分配的端口是 32769 ，注意的是，如果关闭或者重启，这个端口就变了，那么怎么解决固定端口的问题，笔者会在后面详细剖析和带你实战。
+
+这里，还有一个非常重要的知识点 docker run 。Docker 通过 run 命令来启动一个新容器。Docker 首先在本机中寻找该镜像，如果没有安装，Docker 在 Docker Hub 上查找该镜像并下载安装到本机，最后 Docker 创建一个新的容器并启动该程序。
+
+但是，当第二次执行  docker run 时，因为 Docker 在本机中已经安装该镜像，所以 Docker 会直接创建一个新的容器并启动该程序。
 
 
+注意的是， docker run 每次使用都会创建一个新的容器，因此，我们以后再次启动这个容器时，只需要使用命令 docker start  即可。这里， docker start 的作用在用重新启动已存在的镜像，而 docker run 包含将镜像放入容器中 docker create ，然后将容器启动 docker start ，如图所示。
 
+现在，我们可以在上面的案例的基础上，通过 exit 命令关闭 Docker 容器。当然，如果我们运行的是后台的守护进程，我们也可以通过 docker stop web 来停止。注意的是， docker stop 和 docker kill 略有不同， docker stop 发送 SIGTERM 信号，而 docker kill 发送SIGKILL 信号。然后，我们使用 docker start 重启它。
 
+    docker start web
 
-</br><div align="center">⭐️欢迎关注我的公众号 CyC2018，在公众号后台回复关键字 📚 **资料** 可领取复习大纲，这份大纲是我花了一整年时间整理的面试知识点列表，不仅系统整理了面试知识点，而且标注了各个知识点的重要程度，从而帮你理清多而杂的面试知识点。可以说我基本是按照这份大纲来进行复习的，这份大纲对我拿到了 BAT 头条等 Offer 起到很大的帮助。你们完全可以和我一样根据大纲上列的知识点来进行复习，就不用看很多不重要的内容，也可以知道哪些内容很重要从而多安排一些复习时间。</div></br>
-<div align="center"><img width="180px" src="https://cyc-1256109796.cos.ap-guangzhou.myqcloud.com/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg"></img></div>
+Docker 容器重启后会沿用 docker run 命令指定的参数来运行，但是，此时它还是后台运行的。我们必须通过 docker attach 命令切换到运行交互式容器。
+
+    docker attach web
