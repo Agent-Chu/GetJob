@@ -177,6 +177,8 @@ func handleConnection(conn net.Conn) {
 
 ## 基于消息传递的通信方式channel
 
+https://zhuanlan.zhihu.com/p/62391727
+
 channel是语言级别的进程内的协程间的通信方式，是线程安全的
 
 使用基于消息传递的通信方式（而不是大多数语言所使用的基于共享内存的通信方式）进行协程间通信，并且将消息管道(channel)作为基本的数据类型，使用类型关键字(chan)进行定义，并发操作时线程安全。
