@@ -31,3 +31,9 @@
 16.rabbitmq 集群中唯一一个磁盘节点崩溃了会发生什么情况？
 
 17.rabbitmq 对集群节点停止顺序有要求吗？
+
+https://blog.csdn.net/u013256816/article/details/55515234
+
+https://www.jianshu.com/p/79ca08116d57
+
+https://blog.csdn.net/whoamiyang/article/details/54954780
