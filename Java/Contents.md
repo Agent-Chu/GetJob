@@ -10,6 +10,24 @@ https://snailclimb.top/JavaGuide/#/
 
 https://mp.weixin.qq.com/s/I7uohI6Mbqz8--Ird2kmmw
 
+https://zhengjianglong.gitbooks.io/note-of-interview/content/java/base.html
+
+https://github.com/CyC2018/CS-Notes#coffee-java
+
+
+最基本的语言基础：语法，关键字含义，面向对象….
+2. 集合类(ArrayList, HashMap, ConcurrentHashmap…等等)
+3. 多线程(锁，CAS，线程池，concurrent 包下的类)
+4. 语言特性：反射，动态代理，泛型，Java 8 新特性
+5. IO (装饰器模式，NIO)
+6. JVM：内存模型，垃圾回收，类加载机制
+
+三、 Java Web
+
+1. Tomcat，Servlet，JSP，Cookie/Session 等基本概念
+2. 框架使用和原理：Spring(AOP，IoC)，MyBatis 等
+
+
 Java的内存模型是什么样的呢？
 Java字节码模型可以详细讲一下嘛？
 Java类加载机制了解吗，可以讲一下嘛？（追问：Tomcat类加载机制？）
