@@ -5,6 +5,7 @@
 - [死锁](https://github.com/ChuangLiu727/GetJob/tree/master/操作系统/死锁.md)
 - [内存管理](https://github.com/ChuangLiu727/GetJob/tree/master/操作系统/内存管理.md)
 - [磁盘设备管理](https://github.com/ChuangLiu727/GetJob/tree/master/操作系统/磁盘设备管理.md)
+- [内核原理](https://github.com/ChuangLiu727/GetJob/tree/master/操作系统/内核原理.md)
 - [Linux常用命令](https://github.com/ChuangLiu727/GetJob/tree/master/操作系统/Linux.md)
 - [Shell](https://github.com/ChuangLiu727/GetJob/tree/master/操作系统/Shell.md)
 
