@@ -14,6 +14,16 @@ https://zhengjianglong.gitbooks.io/note-of-interview/content/java/base.html
 
 https://github.com/CyC2018/CS-Notes#coffee-java
 
+https://www.nowcoder.com/discuss/160806
+
+https://www.nowcoder.com/discuss/147097
+
+https://www.nowcoder.com/discuss/161611
+
+https://www.nowcoder.com/discuss/160187
+
+https://www.nowcoder.com/discuss/162234
+
 
 最基本的语言基础：语法，关键字含义，面向对象
 2. 集合类(ArrayList, HashMap, ConcurrentHashmap…等等)
