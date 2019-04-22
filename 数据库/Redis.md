@@ -2,6 +2,8 @@ https://zhuanlan.zhihu.com/p/60495899
 
 https://blog.csdn.net/qq_34212276/article/details/78455004
 
+https://github.com/ZhongFuCheng3y/3y/blob/master/src/redis.md
+
 ## Redis 的 SETNX 指令
 
 使用 SETNX（set if not exist）指令插入一个键值对，如果 Key 已经存在，那么会返回 False，否则插入成功并返回 True。

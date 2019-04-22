@@ -5,6 +5,10 @@
 
 ## 设计模式
 
+https://github.com/frank-lam/fullstack-tutorial/blob/master/notes/JavaArchitecture/06-Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.md
+
+https://github.com/aalansehaiyang/technology-talk/blob/master/basic-knowledge/%E5%B8%B8%E7%94%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.md
+
 [设计模式](https://github.com/CyC2018/CS-Notes/blob/master/docs/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.md#2-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82simple-factory)
 
 1**.请你说一下常用设计模式；**
